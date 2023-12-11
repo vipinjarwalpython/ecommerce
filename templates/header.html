@@ -110,8 +110,28 @@
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="#"><img src="/static/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="/static/images/cart.svg"></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="/static/images/user.svg" alt="User Icon">
+                        </a>
+
+
+                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                            {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="/buyer/logout">Logout</a>
+
+                            {% else %}
+                            <!-- else content here -->
+                            <a class="dropdown-item" href="/seller_login/">Seller Login</a>
+                            <a class="dropdown-item" href="/buyer/login/">Buyer Login</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li><a class="nav-link" href="/cart/"><img src="/static/images/cart.svg"></a></li>
+
+                </ul>
+
                 </ul>
             </div>
         </div>

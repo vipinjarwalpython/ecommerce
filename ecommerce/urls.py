@@ -15,6 +15,8 @@ urlpatterns = [
     path("contact/", views.contactus, name="contactus"),
     path("seller/", include("seller.urls")),
     # path("", include("buyer.urls")),
+    path("cart/", views.cart, name="cart"),
+    path("buyer/", include("buyer.urls")),
     # path("admin/", admin.site.urls),
 ]
 
