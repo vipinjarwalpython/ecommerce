@@ -23,3 +23,7 @@ def blog(request):
 
 def contactus(request):
     return render(request, "contact.html")
+
+
+def cart(request):
+    return render(request, "cart.html")
