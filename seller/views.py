@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from seller.models import Seller, Product
+from .models import SellerWallet
+from decimal import Decimal
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -31,7 +34,7 @@ def seller_register(request):
             seller_mobilenumber=seller_mobilenumber,
         )
 
-        return redirect("/seller_login/")
+        return redirect("/seller/login/")
     return render(request, "seller_register.html")
 
 
@@ -48,7 +51,7 @@ def seller_login(request):
 
         else:
             login(request, user)
-            return redirect("/")
+            return redirect("/seller/product/")
 
     return render(request, "seller_login.html")
 
@@ -63,16 +66,129 @@ def dashboard(request):
 
 
 def product_registration(request):
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Get or create the Seller instance for the logged-in user
+        user = request.user
+        seller_instance, created = Seller.objects.get_or_create(seller=user)
+
+        if request.method == "POST":
+            name = request.POST.get("name")
+            description = request.POST.get("description")
+            price = request.POST.get("price")
+            image = request.FILES.get("image")
+
+            # Create a Product instance associated with the Seller
+            product = Product.objects.create(
+                seller=seller_instance,
+                name=name,
+                description=description,
+                price=price,
+                image=image,
+                approved=False,
+            )
+            print(product.approved)
+            # Check for admin approval or custom approval process
+    userid = request.user
+    print(userid)
+    seller = Seller.objects.get(seller=userid)
+    print(seller)
+
+    products = Product.objects.filter(seller=seller)
+    return render(request, "product_registration.html", {"products": products})
+
+
+# def product_registration(request):
+#     if request.method == "POST":
+#         name = request.POST.get("name")
+#         description = request.POST.get("description")
+#         price = request.POST.get("price")
+#         image = request.FILES.get("image")
+#         product = Product.objects.create(
+#             name=name, description=description, price=price, image=image
+#         )
+#         product.save()
+#         return redirect("/seller/product/")
+
+#     products = Product.objects.all()
+#     return render(request, "product_registration.html", {"products": products})
+
+
+def update_product(request, id):
+    product = Product.objects.get(pk=id)
+    return render(request, "update_product.html", {"product": product})
+
+
+def do_update_product(request, id):
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
         price = request.POST.get("price")
         image = request.FILES.get("image")
-        product = Product.objects.create(
-            name=name, description=description, price=price, image=image
-        )
+    product = Product.objects.get(pk=id)
+
+    if image:
+        product.image = image
         product.save()
         return redirect("/seller/product/")
+    product.name = name
+    product.description = description
+    product.price = price
+    product.save()
+    return redirect("/seller/product/")
 
-    products = Product.objects.all()
-    return render(request, "product_registration.html", {"products": products})
+
+def delete_product(request, id):
+    product = Product.objects.get(pk=id)
+    product.delete()
+    return redirect("/seller/product/")
+
+
+def product_list(request):
+    products = Product.objects.filter(approved=True)
+
+    return render(request, "shop.html", {"products": products})
+
+
+def seller_wallet(request):
+    try:
+        seller_wallet = SellerWallet.objects.get(user=request.user)
+    except SellerWallet.DoesNotExist:
+        # Redirect the user to create the wallet if it doesn't exist
+        return redirect("/seller/create_seller_wallet/")
+
+    return render(request, "seller_wallet.html", {"seller_wallet": seller_wallet})
+
+
+@login_required
+def add_funds(request):
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+            try:
+                seller_wallet = SellerWallet.objects.get(user=request.user)
+            except SellerWallet.DoesNotExist:
+                # Redirect the user to create the wallet if it doesn't exist
+                return redirect("/seller/create_seller_wallet/")
+
+            seller_wallet.balance += amount
+            seller_wallet.save()
+            # Add transaction history and other logic as needed
+            return redirect("/seller/seller_wallet/")
+
+    return render(request, "add_funds.html")
+
+
+def create_seller_wallet(request):
+    if SellerWallet.objects.filter(user=request.user).exists():
+        return redirect("add_funds")
+
+    SellerWallet.objects.create(user=request.user, balance=0)
+
+    return redirect("add_funds")
+
+
+
+
+

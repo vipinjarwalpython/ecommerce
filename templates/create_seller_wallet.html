@@ -1,0 +1,21 @@
+{% include "header.html" %}
+
+
+
+
+
+
+<body>
+    <h2>Create Seller Wallet</h2>
+    <p>Your seller wallet has not been created yet. Let's create it now!</p>
+
+    <form method="post" action="/seller/create_seller_wallet/">
+        {% csrf_token %}
+        <button type="submit">Create Seller Wallet</button>
+    </form>
+</body>
+
+</html>
+
+
+{% include "footer.html" %}
