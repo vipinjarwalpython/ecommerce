@@ -76,3 +76,8 @@ def product_registration(request):
 
     products = Product.objects.all()
     return render(request, "product_registration.html", {"products": products})
+
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, "shop.html", {"products": products})
