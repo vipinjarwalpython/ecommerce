@@ -7,11 +7,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from seller import views as product_views
 from buyer import views as buyer_views
 
+from seller import views as productview
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
-    path("shop/", product_views.product_list, name="shop"),
+    # path("shop/", views.shop, name="shop"),
+    path("shop/", productview.product_list, name="product-list"),
     path("about/", views.aboutus, name="aboutus"),
     path("services/", views.services, name="services"),
     path("blog/", views.blog, name="blog"),
