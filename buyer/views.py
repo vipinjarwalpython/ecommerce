@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from .models import Buyer, CartItem, BuyerBilling
+from .models import Buyer, CartItem, BuyerBilling, BillItems
 from seller.models import Product
 
 # Create your views here.
@@ -104,9 +104,7 @@ def view_cart(request):
 
 def add_to_cart(request, id):
     product = Product.objects.get(id=id)
-    cart_item, created = CartItem.objects.get_or_create(
-        product=product, user=request.user
-    )
+    cart_item,created= CartItem.objects.get_or_create(product=product,user=request.user)
     cart_item.quantity = cart_item.quantity + 1
     cart_item.save()
     return redirect("/shop/")
@@ -136,7 +134,7 @@ def minus_from_cart(request, id):
 
 
 def billing(request):
-    userid = request.user.id
+    userid = request.user
     cart_item = CartItem.objects.filter(user_id=userid)
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -149,15 +147,14 @@ def billing(request):
         phone = request.POST.get("phone")
         notes = request.POST.get("notes")
 
-        print(cart_item, first_name, last_name)
+        # print(cart_item, first_name, last_name)
 
         cust_bill = BuyerBilling.objects.create(
-            cart_item=cart_item,
-            first_name=first_name,
-            last_name=last_name,
+            user = userid,
+            firstname=first_name,
+            lastname=last_name,
             address=address,
             city=city,
-            state=state,
             postal=postal,
             country=country,
             email=email,
@@ -165,12 +162,41 @@ def billing(request):
             notes=notes,
         )
         cust_bill.save()
-    total_ammount = 0
+        return redirect("/bill-confirmation/")
+    total_ammount = []
     for item in cart_item:
-        total_ammount += item.product.price
+        item.total_price = item.product.price * item.quantity
+        total_ammount.append(item.total_price)
+        item.save()
         # bill = BuyerBilling.objects.all()
-    return render(
-        request,
-        "checkout.html",
-        {"cart_item": cart_item, "total_ammount": total_ammount},
-    )
+    total__product_price = sum(total_ammount)    
+    return render(request,"checkout.html",{"cart_item": cart_item, "total_ammount": total__product_price})
+
+
+def bill_confirm(request):
+    userid = request.user
+    cart_item = CartItem.objects.filter(user_id=userid)
+    # print(cart_item)
+    cust_bill = BuyerBilling.objects.filter(user = userid)
+    print(cust_bill)
+    print(cust_bill[len(cust_bill)-1])
+    
+
+    return render(request, 'bill_confirmation.html', {'cart_item':cart_item, 'cust_bill':cust_bill[len(cust_bill)-1]})
+
+
+def thankyou(request):
+    userid = request.user
+    cart_item = CartItem.objects.filter(user_id=userid)
+    print(cart_item)
+    for item in cart_item:
+        print(item)
+        final_bill = BillItems.objects.create(
+            product=item.product
+        )
+    # cust_bill = BuyerBilling.objects.get(user = userid)
+    # cart_item.delete()
+    # cust_bill.delete()
+
+
+    return render(request, "thankyou.html")

@@ -5,70 +5,84 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
 
-{% include "header.html" %}
+<head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
 
-<!-- Section: Design Block -->
-<section class="text-center text-lg-start">
-    <style>
-        .cascading-right {
-            margin-right: -50px;
-        }
-
-        @media (max-width: 991.98px) {
+<body>
+    <!-- Section: Design Block -->
+    <section class="text-center text-lg-start">
+        <style>
             .cascading-right {
-                margin-right: 0;
+                margin-right: -50px;
             }
-        }
-    </style>
 
-    <!-- Jumbotron -->
-    <div class="container py-4">
-        <div class="row g-0 align-items-center">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="card cascading-right" style="
+            @media (max-width: 991.98px) {
+                .cascading-right {
+                    margin-right: 0;
+                }
+            }
+        </style>
+
+        <!-- Jumbotron -->
+        <div class="container py-4">
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="card cascading-right" style="
             background: hsla(0, 0%, 100%, 0.55);
             backdrop-filter: blur(30px);
             ">
-                    <div class="card-body p-5 shadow-5 text-center">
-                        <h2 class="fw-bold mb-5">Buyer Login</h2>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <!-- 2 column grid layout with text inputs for the first and last names -->
-                            <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
-                                        <input type="text" id="username" class="form-control" name="username" required />
-                                        <label class="form-label" for="form3Example1">Username</label>
+                        <div class="card-body p-5 shadow-5 text-center">
+                            <h2 class="fw-bold mb-5">Buyer Login</h2>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <!-- 2 column grid layout with text inputs for the first and last names -->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type="text" id="username" class="form-control" name="username" />
+                                            <label class="form-label" for="form3Example1">Username</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type="password" id="password" class="form-control" name="password" />
+                                            <label class="form-label" for="form3Example2">Password</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
-                                        <input type="password" id="password" class="form-control" name="password" required/>
-                                        <label class="form-label" for="form3Example2">Password</label>
-                                    </div>
-                                </div>
-                            </div>
 
 
-                            <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary btn-block mb-4">
-                                Login
-                            </button>
-                            <p class="text-center text-muted mt-2 mb-2">Don't Have an account?</p>
-                            <a href="/buyer/signup/"><button type="button" class="btn btn-success btn-block mb-4">
-                                    Register
-                                </button></a>
-                        </form>
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-block mb-4">
+                                    Login
+                                </button>
+                                <p class="text-center text-muted mt-2 mb-2">Don't Have an account?</p>
+                                <a href="/buyer/signup/"><button type="button" class="btn btn-success btn-block mb-4">
+                                        Register
+                                    </button></a>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" class="w-100 rounded-4 shadow-4"
-                    alt="" />
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
+                        class="w-100 rounded-4 shadow-4" alt="" />
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Jumbotron -->
-</section>
-{% include "footer.html" %}
+        <!-- Jumbotron -->
+    </section>
+    <!-- Section: Design Block -->
+</body>
+
+</html>

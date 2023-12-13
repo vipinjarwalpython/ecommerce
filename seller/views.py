@@ -46,6 +46,7 @@ def seller_login(request):
 
         user = authenticate(username=seller_username, password=seller_password)
 
+        print(user)
         if user is None:
             messages.error(request, "Invalid username or password")
 
@@ -72,32 +73,11 @@ def product_registration(request):
         user = request.user
         seller_instance, created = Seller.objects.get_or_create(seller=user)
 
-        # category_instance = Product.objects.get(category=category)
-        # print(category_instance)
-        # p_category = Category.objects.all()
-        # print(p_category)
-        # print(category_instance)
         if request.method == "POST":
-            print("#######################################################")
             name = request.POST.get("name")
             description = request.POST.get("description")
             price = request.POST.get("price")
             image = request.FILES.get("image")
-            category1 = request.POST.get("category")
-            categoryid = int(category1)
-            print("#####################1##################################")
-
-            print(category1)
-            category_get = Category.objects.get(id=categoryid)
-            print(category_get.id)
-            print("#####################2##################################")
-
-            # print(category)
-            # category_instance = Product.objects.get(category=category_get)
-            # if category_instance is None:
-            #     print(category_instance)
-            #     print(category_instance.id)
-            #     print("#####################3##################################")
 
             # Create a Product instance associated with the Seller
             product = Product.objects.create(
@@ -107,20 +87,15 @@ def product_registration(request):
                 price=price,
                 image=image,
                 approved=False,
-                category_id=category_get.id,
             )
             print(product.approved)
             # Check for admin approval or custom approval process
+    userid = request.user
+    print(userid)
+    seller = Seller.objects.get(seller=userid)
+    print(seller)
 
-        userid = request.user
-        print(userid)
-        seller = Seller.objects.get(seller=userid)
-        print(seller)
-        products = Product.objects.filter(seller=seller)
-        # context = {"products": products}
-        # print(context)
-        print("#######################################################")
-
+    products = Product.objects.filter(seller=seller)
     return render(request, "product_registration.html", {"products": products})
 
 
@@ -213,3 +188,8 @@ def create_seller_wallet(request):
     SellerWallet.objects.create(user=request.user, balance=0)
 
     return redirect("add_funds")
+
+
+
+
+
