@@ -6,6 +6,7 @@ from seller.models import Seller, Product
 from .models import SellerWallet
 from decimal import Decimal
 from django.contrib.auth.decorators import login_required
+from seller.models import Category
 
 # Create your views here.
 

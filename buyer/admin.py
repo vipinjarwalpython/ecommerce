@@ -1,5 +1,6 @@
 from django.contrib import admin
 from buyer.models import Buyer, CartItem, BuyerBilling
+from buyer.models import Buyer, CartItem
 
 # Register your models here.
 

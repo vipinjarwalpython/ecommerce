@@ -11,24 +11,39 @@
             {% csrf_token %}
             <div class="mb-3">
                 <label for="name" class="form-label">Product Name:</label>
-                <textarea id="description" name="name" class="form-control" required></textarea>
+                <textarea id="description" name="name" class="form-control"></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description:</label>
-                <textarea id="description" name="description" class="form-control" required></textarea>
+                <textarea id="description" name="description" class="form-control"></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Price:</label>
                 <div class="input-group">
                     <span class="input-group-text">₹</span>
-                    <input type="text" id="price" name="price" class="form-control" required>
+                    <input type="text" id="price" name="price" class="form-control">
                 </div>
-            </div>
-            <input type="file" id="image" name="image"><br>
-            <button type="submit" class="btn btn-primary">Register Product</button>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category:</label>
+                    <select name="category" id="category" class="form-select">
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="1">Electronics and Mobile</option>
+                        <option value="2">Fashion & Lifestyle</option>
+                        <option value="3">Media</option>
+                        <option value="4">Home & Appliances</option>
+                        <option value="5">Homemade & Craftings</option>
+                        <option value="6">Footwear</option>
+                        <option value="7">Gifts & Hampers</option>
+                        <option value="8">Festival Shopping Items</option>
+                    </select>
+                </div>
+                <input type="file" id="image" name="image"><br>
+                <button type="submit" class="btn btn-primary">Register Product</button>
         </form>
+
+
 
         <h2 class="mb-3">All Products</h2>
         <table class="table table-striped">
@@ -47,11 +62,15 @@
                 <tr>
                     <td>{{ product.name }}</td>
                     <td>₹{{ product.price }}</td>
+
                     <td><img src="/media/{{product.image}}" alt="No image found" width="100" height="100">
                     </td>
+
+
+
                     <td class="text-center"><a href="/seller/update/{{product.id}}"><button
-                                type="botton">Update</button>
-                            <a href="/seller/delete/{{product.id}}"><button type="botton">Delete</button></td>
+                                type="button">Update</button>
+                            <a href="/seller/delete/{{product.id}}"><button type="button">Delete</button></td>
 
                 </tr>
                 {% endfor %}

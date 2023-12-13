@@ -3,7 +3,6 @@ from seller.models import Seller
 from seller.models import Product
 from seller.models import SellerWallet
 
-
 # Register your models here.
 
 
