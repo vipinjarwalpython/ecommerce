@@ -21,6 +21,16 @@
 <div class="untree_co-section product-section before-footer-section">
 	<div class="container">
 		<div class="row">
+<<<<<<< HEAD
+
+			
+			{% for product in products %}
+			<div class="col-12 col-md-4 col-lg-3 mb-5">
+				<a class="product-item" href="/add/{{product.id}}/">
+					<img src="/media/{{product.image}}" class="img-fluid product-thumbnail">
+					<h3 class="product-title">{{product.name}}</h3>
+					<strong class="product-price">{{product.price}}</strong>
+=======
 			{% for product in products %}
 			<!-- Start Column 1 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
@@ -29,15 +39,20 @@
 					<h3 class="product-title">{{product.name}}</h3>
 					<strong class="product-price">{{product.price}}</strong>
 
+>>>>>>> ec3ec5eea1011cf7773a1de739a280143b56cb4e
 					<span class="icon-cross">
 						<img src="/static/images/cross.svg" class="img-fluid">
 					</span>
-				</a>
 			</div>
+<<<<<<< HEAD
+			{% endfor %}
+			
+=======
 			<!-- End Column 1 -->
 
 			{% endfor %}
 
+>>>>>>> ec3ec5eea1011cf7773a1de739a280143b56cb4e
 		</div>
 	</div>
 </div>

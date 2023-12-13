@@ -4,6 +4,9 @@ from ecommerce import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from seller import views as product_views
+from buyer import views as buyer_views
+
 from seller import views as productview
 from buyer import views as buyer_views
 
@@ -17,8 +20,10 @@ urlpatterns = [
     path("services/", views.services, name="services"),
     path("blog/", views.blog, name="blog"),
     path("contact/", views.contactus, name="contactus"),
+    path("checkout/", views.checkout, name="checkout"),
     path("seller/", include("seller.urls")),
     # path("", include("buyer.urls")),
+    # Cart and Billing Urls
     path("cart/", buyer_views.view_cart, name="cart"),
     path("add/<int:id>/", buyer_views.add_to_cart, name="add_to_cart"),
     path("remove/<int:id>/", buyer_views.remove_from_cart, name="remove_from_cart"),
