@@ -78,3 +78,8 @@ def product_list(request):
 
 def categorywise_productlist(request):
     return render(request, "categorywise_productlist.html")
+
+
+from django.shortcuts import render
+
+# Create your views here.

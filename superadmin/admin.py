@@ -4,3 +4,5 @@ from .models import SuperAdmin
 # Register your models here.
 
 admin.site.register(SuperAdmin)
+
+# Register your models here.

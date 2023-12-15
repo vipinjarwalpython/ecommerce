@@ -10,3 +10,6 @@ class SuperAdmin(models.Model):
 
     def __str__(self):
         return self.superadmin.username
+
+
+# Create your models here.

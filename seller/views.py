@@ -46,6 +46,7 @@ def seller_login(request):
 
         user = authenticate(username=seller_username, password=seller_password)
 
+        print(user)
         if user is None:
             messages.error(request, "Invalid username or password")
 
@@ -77,12 +78,6 @@ def product_registration(request):
             description = request.POST.get("description")
             price = request.POST.get("price")
             image = request.FILES.get("image")
-            categoryid = request.POST.get("category")
-
-            # print(categoryid)
-            # category_get = Category.objects.get(id=categoryid)
-            # print(category_get)
-            # print(category_get.id)
 
             # Create a Product instance associated with the Seller
             product = Product.objects.create(
@@ -92,28 +87,37 @@ def product_registration(request):
                 price=price,
                 image=image,
                 approved=False,
-                category_id=categoryid,
             )
             print(product.approved)
             # Check for admin approval or custom approval process
+    userid = request.user
+    print(userid)
+    seller = Seller.objects.get(seller=userid)
+    print(seller)
 
-        userid = request.user
-        print(userid)
-        seller = Seller.objects.get(seller=userid)
-        print(seller)
-        products = Product.objects.filter(seller=seller)
-    else:
-        return redirect("/seller/login/")
-
+    products = Product.objects.filter(seller=seller)
     return render(request, "product_registration.html", {"products": products})
+
+
+# def product_registration(request):
+#     if request.method == "POST":
+#         name = request.POST.get("name")
+#         description = request.POST.get("description")
+#         price = request.POST.get("price")
+#         image = request.FILES.get("image")
+#         product = Product.objects.create(
+#             name=name, description=description, price=price, image=image
+#         )
+#         product.save()
+#         return redirect("/seller/product/")
+
+#     products = Product.objects.all()
+#     return render(request, "product_registration.html", {"products": products})
 
 
 def update_product(request, id):
     product = Product.objects.get(pk=id)
-    categories = Category.objects.all()
-    return render(
-        request, "update_product.html", {"product": product, "categories": categories}
-    )
+    return render(request, "update_product.html", {"product": product})
 
 
 def do_update_product(request, id):

@@ -1,0 +1,185 @@
+{% include "header.html" %}
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Checkout</h1>
+                </div>
+            </div>
+            <div class="col-lg-7">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+
+<div class="untree_co-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                {% if not user.is_authenticated %}
+
+                <div class="border p-4 rounded" role="alert">
+                    Returning customer? <a href="/buyer/login/">Click here</a> to login
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-5 mb-md-0">
+                <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                <div class="p-3 p-lg-5 border bg-white">
+                    <div class="form-group row">
+                        <div class="row-cols-3">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>First Name</th>
+                                        <td>{{cust_bill.firstname}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Last Name</th>
+                                        <td>{{cust_bill.lastname}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Address</th>
+                                        <td>{{cust_bill.address}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>City</th>
+                                        <td>{{cust_bill.city}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Postal</th>
+                                        <td>{{cust_bill.postal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Country</th>
+                                        <td>{{cust_bill.country}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{cust_bill.email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mobile</th>
+                                        <td>{{cust_bill.phone}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Notes</th>
+                                        <td>{{cust_bill.notes}}</td>
+                                    </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+            <div class="col-md-6">
+
+
+
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <h2 class="h3 mb-3 text-black">Your Order</h2>
+                        <div class="p-3 p-lg-5 border bg-white">
+                            <table class="table site-block-order-table mb-5">
+                                <thead>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </thead>
+                                {% for item in cart_item %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{item.product.name}}
+                                        </td>
+                                        <td>{{item.quantity}}</td>
+                                        <td>{{item.total_price}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                                        <td class="text-black">{{total_ammount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>{{total_ammount}}</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+
+                            <div class="border p-3 mb-3">
+                                <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsebank"
+                                        role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank
+                                        Transfer</a></h3>
+
+                                <div class="collapse" id="collapsebank">
+                                    <div class="py-2">
+                                        <p class="mb-0">Make your payment directly into our bank account. Please use
+                                            your Order ID as the payment reference. Your order won’t be shipped
+                                            until
+                                            the funds have cleared in our account.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border p-3 mb-3">
+                                <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsecheque"
+                                        role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque
+                                        Payment</a></h3>
+
+                                <div class="collapse" id="collapsecheque">
+                                    <div class="py-2">
+                                        <p class="mb-0">Make your payment directly into our bank account. Please use
+                                            your Order ID as the payment reference. Your order won’t be shipped
+                                            until
+                                            the funds have cleared in our account.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border p-3 mb-5">
+                                <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal"
+                                        role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a>
+                                </h3>
+
+                                <div class="collapse" id="collapsepaypal">
+                                    <div class="py-2">
+                                        <p class="mb-0">Make your payment directly into our bank account. Please use
+                                            your Order ID as the payment reference. Your order won’t be shipped
+                                            until
+                                            the funds have cleared in our account.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="/thankyou/">
+                                    <button type="submit" class="btn btn-success btn-block mb-4">
+                                        Confirm Plcae Order
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+{% include "footer.html" %}

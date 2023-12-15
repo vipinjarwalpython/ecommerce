@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from .models import Buyer, CartItem, BuyerBilling
+from .models import Buyer, CartItem, BuyerBilling, BillItems
 from seller.models import Product
 
 # Create your views here.
@@ -104,6 +104,9 @@ def view_cart(request):
 
 def add_to_cart(request, id):
     product = Product.objects.get(id=id)
+    cart_item, created = CartItem.objects.get_or_create(
+        product=product, user=request.user
+    )
     cart_item, created = CartItem.objects.get_or_create(
         product=product, user=request.user
     )

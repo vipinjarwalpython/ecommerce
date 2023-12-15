@@ -35,3 +35,15 @@ class BuyerBilling(models.Model):
     email = models.CharField(max_length=30)
     phone = models.IntegerField()
     notes = models.TextField()
+
+
+class BillItems(models.Model):
+    buyer_details = models.ForeignKey(BuyerBilling, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True) 
+    total_price = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name}"
