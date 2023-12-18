@@ -22,7 +22,7 @@ urlpatterns = [
     path("superadmin/", include("superadmin.urls")),
     # path("", include("buyer.urls")),
     # Cart and Billing Urls
-    path("thankyou/", buyer_views.thankyou, name="thankyou"),
+    # path("thankyou/", buyer_views.thankyou, name="thankyou"),
     path("seller/", include("seller.urls")),
     # path("", include("buyer.urls")),
     path("cart/", buyer_views.view_cart, name="cart"),
@@ -31,7 +31,7 @@ urlpatterns = [
     path("plus/<int:id>/", buyer_views.plus_to_cart, name="plus_to_cart"),
     path("minus/<int:id>/", buyer_views.minus_from_cart, name="minus_from_cart"),
     path("bill/", buyer_views.billing, name="billing"),
-    path("bill-confirmation/", buyer_views.bill_confirm, name="billing"),
+    # path("bill-confirmation/", buyer_views.bill_confirm, name="billing"),
     path("buyer/", include("buyer.urls")),
 ]
 

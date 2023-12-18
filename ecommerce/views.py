@@ -21,14 +21,9 @@ def contactus(request):
     return render(request, "contact.html")
 
 
-<<<<<<< HEAD
 def checkout(request):
     return render(request, "checkout.html")
-=======
+
+
 def cart(request):
     return render(request, "cart.html")
-
-
-
-
->>>>>>> 31f591ef7f1ab533cb04fff180c34db811157ce1

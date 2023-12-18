@@ -78,6 +78,7 @@ def product_registration(request):
             description = request.POST.get("description")
             price = request.POST.get("price")
             image = request.FILES.get("image")
+            categoryid = request.POST.get("category")
 
             # Create a Product instance associated with the Seller
             product = Product.objects.create(
@@ -87,6 +88,7 @@ def product_registration(request):
                 price=price,
                 image=image,
                 approved=False,
+                category_id=categoryid,
             )
             print(product.approved)
             # Check for admin approval or custom approval process
@@ -97,22 +99,6 @@ def product_registration(request):
 
     products = Product.objects.filter(seller=seller)
     return render(request, "product_registration.html", {"products": products})
-
-
-# def product_registration(request):
-#     if request.method == "POST":
-#         name = request.POST.get("name")
-#         description = request.POST.get("description")
-#         price = request.POST.get("price")
-#         image = request.FILES.get("image")
-#         product = Product.objects.create(
-#             name=name, description=description, price=price, image=image
-#         )
-#         product.save()
-#         return redirect("/seller/product/")
-
-#     products = Product.objects.all()
-#     return render(request, "product_registration.html", {"products": products})
 
 
 def update_product(request, id):
