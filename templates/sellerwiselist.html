@@ -23,7 +23,6 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">Seller Name
                                 </th>
 
@@ -37,7 +36,6 @@
                             {% for s in seller %}
 
                             <tr>
-                                <th scope="row">{{s.id}}</th>
                                 <td> <a href="/superadmin/sellerwiselist_select/{{s.id}}/"><button
                                             class=" btn btn-outline-success">{{s.seller.username}}
 

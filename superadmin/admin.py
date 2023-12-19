@@ -6,5 +6,6 @@ from .models import SuperAdmin, Wallet
 
 admin.site.register(SuperAdmin)
 
+
 # Register your models here.
 admin.site.register(Wallet)
