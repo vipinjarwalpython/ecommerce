@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<a href="/superadmin/superadmin_wallet/" class="btn btn-primary my-2">My Wallet</a>
 
 <head>
     <meta charset="UTF-8">
@@ -102,6 +103,10 @@
                         <a class="nav-link" href="/superadmin/categorywise_productlist/">Categorywiselist</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/superadmin/sellerwiselist/">Sellerwiselist</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/superadmin/logout/">Logout</a>
                     </li>
                 </ul>
@@ -116,12 +121,16 @@
             <thead>
                 <tr>
                     <th scope="col">Buyer's Name</th>
+
+
                 </tr>
             </thead>
             <tbody>
-                {% for buyer in buyers %}
+                {% for b in buyers %}
                 <tr>
-                    <td>{{ buyer.name }}</td>
+                    <td>{{ b.buyer.username }}</td>
+
+
                 </tr>
                 {% endfor %}
             </tbody>

@@ -14,4 +14,31 @@ urlpatterns = [
         views.categorywise_productlist,
         name="categorywise_productlist",
     ),
+    path("sellerwiselist/", views.sellerwise_list, name="sellerwiselist"),
+    path(
+        "Electronicsandmobile/", views.Electronicsandmobile, name="Electronicsandmobile"
+    ),
+    path("Fashionandlifestyle/", views.Fashionandlifestyle, name="Fashionandlifestyle"),
+    path("Media/", views.Media, name="Media"),
+    path("Homeandappliances/", views.Homeandappliances, name="Homeandappliances"),
+    path(
+        "Homemadeandcraftings/", views.Homemadeandcraftings, name="Homemadeandcraftings"
+    ),
+    path("Footwear/", views.Footwear, name="Footwear"),
+    path("Giftsandhampers/", views.Giftsandhampers, name="Giftsandhampers"),
+    path(
+        "Festivalshoppingitems/",
+        views.Festivalshoppingitems,
+        name="festivalshoppingitems",
+    ),
+    path(
+        "sellerwiselist_select/<int:id>/",
+        views.sellerwiseindividuallist,
+        name="sellerwiselist_select",
+    ),
+    path("superadmin_wallet/", views.superadmin_wallet, name="superadmin_wallet"),
+    path(
+        "superadmin_add_funds/", views.superadmin_add_funds, name="superadmin_add_funds"
+    ),
+    path("walletwise_seller/", views.walletwise_sellerlist, name="walletwise_seller"),
 ]

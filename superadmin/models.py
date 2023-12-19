@@ -13,3 +13,8 @@ class SuperAdmin(models.Model):
 
 
 # Create your models here.
+
+
+class Wallet(models.Model):
+    balance = models.DecimalField(decimal_places=2, max_digits=7)
+    walletuser = models.OneToOneField(User, on_delete=models.CASCADE)

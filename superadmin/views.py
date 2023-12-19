@@ -5,6 +5,9 @@ from seller.models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import math
+from .models import Wallet
+from decimal import Decimal
 
 # from django.contrib.auth.decorators import login_required
 
@@ -80,6 +83,89 @@ def categorywise_productlist(request):
     return render(request, "categorywise_productlist.html")
 
 
-from django.shortcuts import render
+def sellerwise_list(request):
+    seller = Seller.objects.all()
+    return render(request, "sellerwiselist.html", {"seller": seller})
 
-# Create your views here.
+
+def sellerwiseindividuallist(request, id):
+    seller = Seller.objects.get(pk=id)
+
+    product = Product.objects.filter(seller=seller)
+    print("############################################")
+    print(product)
+    return render(request, "sellerwiselist_select.html", {"product": product})
+
+
+def Electronicsandmobile(request):
+    product = Product.objects.all()
+    return render(request, "Electronicsandmobile.html", {"product": product})
+
+
+def Fashionandlifestyle(request):
+    product = Product.objects.all()
+    return render(request, "Fashionandlifestyle.html", {"product": product})
+
+
+def Media(request):
+    product = Product.objects.all()
+    return render(request, "Media.html", {"product": product})
+
+
+def Homeandappliances(request):
+    product = Product.objects.all()
+    return render(request, "Homeandappliances.html", {"product": product})
+
+
+def Homemadeandcraftings(request):
+    product = Product.objects.all()
+    return render(request, "Homemadeandcraftings.html", {"product": product})
+
+
+def Footwear(request):
+    product = Product.objects.all()
+    return render(request, "Footwear.html", {"product": product})
+
+
+def Giftsandhampers(request):
+    product = Product.objects.all()
+    return render(request, "Giftsandhampers.html", {"product": product})
+
+
+def Festivalshoppingitems(request):
+    product = Product.objects.all()
+    return render(request, "Festivalshoppingitems.html", {"product": product})
+
+
+@login_required
+def superadmin_add_funds(request):
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+            try:
+                superadmin_wallet = Wallet.objects.get(walletuser=request.user)
+
+            except Wallet.DoesNotExist:
+                # Redirect the user to create the wallet if it doesn't exist
+                return redirect("/")
+
+            superadmin_wallet.balance += amount
+            superadmin_wallet.save()
+            # Add transaction history and other logic as needed
+            return redirect("/superadmin/superadmin_wallet/")
+
+    return render(request, "superadmin_add_funds.html")
+
+
+def superadmin_wallet(request):
+    superadmin_wallet = Wallet.objects.get(walletuser=request.user)
+
+    return render(
+        request, "superadmin_wallet.html", {"superadmin_wallet": superadmin_wallet}
+    )
+
+
+def walletwise_sellerlist(request):
+    seller = Seller.objects.all()
+    return render(request, "walletwise_sellerlist.html", {"seller": seller})
