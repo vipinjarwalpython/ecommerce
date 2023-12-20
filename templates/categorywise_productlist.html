@@ -122,25 +122,12 @@
         </div>
     </nav>
     <div>
-        <div><a href="/superadmin/Electronicsandmobile/"><button class="button button1" type="submit">Electronics
-                    and
-                    Mobile</button></a>
+        {% for cat in category %}
+        <div><a href="/superadmin/category/{{cat.id}}/"><button class="button button1"
+                    type="submit">{{cat}}</button></a>
         </div>
+        {% endfor %}
 
-        <div><a href="/superadmin/Fashionandlifestyle/"><button class="button button1" type="submit">Fashion and
-                    Lifestyle</button></a></div>
-        <div><a href="/superadmin/Media/"><button class="button button1" type="submit">Media</button></a></div>
-        <div><a href="/superadmin/Homeandappliances/"><button class="button button1" type="submit">Home and
-                    Appliances</button></a></div>
-        <div><a href="/superadmin/Homemadeandcraftings/"><button class="button button1" type="submit">Homemade and
-                    Craftings</button></a>
-        </div>
-        <div><a href="/superadmin/Footwear/"><button class="button button1" type="submit">Footwear</button></a></div>
-        <div><a href="/superadmin/Giftsandhampers/"><button class="button button1" type="submit">Gifts and
-                    Hampers</button></a></div>
-        <div><a href="/superadmin/Festivalshoppingitems/"><button class="button button1" type="submit">Festival
-                    Shopping Items</button></a>
-        </div>
 
 
     </div>

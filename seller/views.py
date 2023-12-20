@@ -83,6 +83,7 @@ def product_registration(request):
             description = request.POST.get("description")
             price = request.POST.get("price")
             image = request.FILES.get("image")
+            quantity = request.POST.get("quantity")
             categoryid = request.POST.get("category")
 
             # Create a Product instance associated with the Seller
@@ -92,6 +93,7 @@ def product_registration(request):
                 description=description,
                 price=price,
                 image=image,
+                quantity=quantity,
                 approved=False,
                 category_id=categoryid,
             )
@@ -108,7 +110,10 @@ def product_registration(request):
 
 def update_product(request, id):
     product = Product.objects.get(pk=id)
-    return render(request, "update_product.html", {"product": product})
+    category = Category.objects.all()
+    return render(
+        request, "update_product.html", {"product": product, "category": category}
+    )
 
 
 def do_update_product(request, id):
@@ -117,6 +122,7 @@ def do_update_product(request, id):
         description = request.POST.get("description")
         price = request.POST.get("price")
         image = request.FILES.get("image")
+        quantity = request.POST.get("quantity")
         categoryid = request.POST.get("category")
     product = Product.objects.get(pk=id)
 
@@ -127,6 +133,7 @@ def do_update_product(request, id):
     product.name = name
     product.description = description
     product.price = price
+    product.quantity = quantity
     new_category = Category.objects.get(id=categoryid)
     product.category = new_category
     product.save()
@@ -151,19 +158,30 @@ def add_funds(request):
         amount = request.POST.get("amount")
         if amount is not None:
             amount = Decimal(amount)
-            try:
-                seller_wallet = Wallet.objects.get(walletuser=request.user)
 
-            except Wallet.DoesNotExist:
-                # Redirect the user to create the wallet if it doesn't exist
-                return redirect("/seller/register/")
-
+            seller_wallet = Wallet.objects.get(walletuser=request.user)
             seller_wallet.balance += amount
             seller_wallet.save()
             # Add transaction history and other logic as needed
             return redirect("/seller/seller_wallet/")
 
     return render(request, "add_funds.html")
+
+
+@login_required
+def withdraw_funds(request):
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+
+            seller_wallet = Wallet.objects.get(walletuser=request.user)
+            seller_wallet.balance -= amount
+            seller_wallet.save()
+            # Add transaction history and other logic as needed
+            return redirect("/seller/seller_wallet/")
+
+    return render(request, "withdraw_funds.html")
 
 
 def seller_wallet(request):

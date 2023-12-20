@@ -28,11 +28,19 @@
                 </div>
             </div>
             <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity:</label>
+                <div class="input-group">
+
+                    <input type="number" id="quantity" name="quantity" class="form-control" name="price"
+                        value={{product.quantity}}>
+                </div>
+            </div>
+            <div class="mb-3">
                 <label for="category" class="form-label">Category:</label>
                 <select name="category" id="category" class="form-select">
-                    {% for category in categories %}
-                    <option value="{{ category.id }}" {% if category.id == product.category.id %} selected {% endif %}>
-                        {{ category.name }}
+                    {% for c in category %}
+                    <option value="{{ c.id }}" {% if c.id == product.category.id %} selected {% endif %}>
+                        {{ c.name }}
                     </option>
                     {% endfor %}
                 </select>

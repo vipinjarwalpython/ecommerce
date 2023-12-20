@@ -16,5 +16,5 @@ class SuperAdmin(models.Model):
 
 
 class Wallet(models.Model):
-    balance = models.DecimalField(decimal_places=2, max_digits=7)
+    balance = models.DecimalField(decimal_places=2, max_digits=10)
     walletuser = models.OneToOneField(User, on_delete=models.CASCADE)

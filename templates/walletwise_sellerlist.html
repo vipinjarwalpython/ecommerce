@@ -27,22 +27,35 @@
                                             <tr>
 
                                                 <th scope="col">seller Name</th>
+                                                <th scope="col">seller Balance</th>
+
+
 
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for s in seller %}
+
+
+                                            {% for w in wallet %}
+
                                             <tr>
-
-                                                <td><button class="btn btn-outline-success">{{s.seller.username}}</button></td>
-
-
-
+                                                <td>{{w.walletuser}} :
+                                                </td>
+                                                <td>
+                                                    {{w.balance}}
+                                                </td>
                                             </tr>
+
                                             {% endfor %}
                                         </tbody>
                                     </table>
+
+
+
+
+
+
 
                                 </div>
                                 <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">

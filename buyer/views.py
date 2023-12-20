@@ -160,7 +160,6 @@ def billing(request):
             last_name=last_name,
             address=address,
             city=city,
-            state=state,
             postal=postal,
             country=country,
             email=email,

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 import math
 from .models import Wallet
 from decimal import Decimal
+from seller.models import Category
 
 # from django.contrib.auth.decorators import login_required
 
@@ -79,10 +80,6 @@ def product_list(request):
     return render(request, "product_list.html", {"product": product})
 
 
-def categorywise_productlist(request):
-    return render(request, "categorywise_productlist.html")
-
-
 def sellerwise_list(request):
     seller = Seller.objects.all()
     return render(request, "sellerwiselist.html", {"seller": seller})
@@ -97,47 +94,19 @@ def sellerwiseindividuallist(request, id):
     return render(request, "sellerwiselist_select.html", {"product": product})
 
 
-def Electronicsandmobile(request):
-    product = Product.objects.all()
-    return render(request, "Electronicsandmobile.html", {"product": product})
+def categorywise_productlist(request):
+    category = Category.objects.all()
+    # print(category)
+    return render(request, "categorywise_productlist.html", {"category": category})
 
 
-def Fashionandlifestyle(request):
-    product = Product.objects.all()
-    return render(request, "Fashionandlifestyle.html", {"product": product})
+def product_categorywise(request, id):
+    category = Category.objects.get(id=id)
+    product = Product.objects.filter(category=category)
+    print(product)
+    return render(request, "category_product.html", {"product": product})
 
 
-def Media(request):
-    product = Product.objects.all()
-    return render(request, "Media.html", {"product": product})
-
-
-def Homeandappliances(request):
-    product = Product.objects.all()
-    return render(request, "Homeandappliances.html", {"product": product})
-
-
-def Homemadeandcraftings(request):
-    product = Product.objects.all()
-    return render(request, "Homemadeandcraftings.html", {"product": product})
-
-
-def Footwear(request):
-    product = Product.objects.all()
-    return render(request, "Footwear.html", {"product": product})
-
-
-def Giftsandhampers(request):
-    product = Product.objects.all()
-    return render(request, "Giftsandhampers.html", {"product": product})
-
-
-def Festivalshoppingitems(request):
-    product = Product.objects.all()
-    return render(request, "Festivalshoppingitems.html", {"product": product})
-
-
-@login_required
 def superadmin_add_funds(request):
     if request.method == "POST":
         amount = request.POST.get("amount")
@@ -168,4 +137,8 @@ def superadmin_wallet(request):
 
 def walletwise_sellerlist(request):
     seller = Seller.objects.all()
-    return render(request, "walletwise_sellerlist.html", {"seller": seller})
+    wallet = Wallet.objects.all()
+
+    return render(
+        request, "walletwise_sellerlist.html", {"seller": seller, "wallet": wallet}
+    )

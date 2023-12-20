@@ -36,7 +36,7 @@
                         <tbody>
                             {% for p in product %}
                             {% if p.approved %}
-                            {% if p.category.id == 3 %}
+
                             <tr>
                                 <th scope="row">{{p.id}}</th>
                                 <td>{{p.name}}</td>
@@ -45,7 +45,7 @@
                                 </td>
 
                             </tr>
-                            {% endif %}
+
                             {% endif %}
                             {% endfor %}
                     </table>
