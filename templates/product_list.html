@@ -108,6 +108,7 @@
                 <th scope="col">Product List</th>
                 <th scope="col">Product Category</th>
                 <th scope="col">Product Image</th>
+                <th scope="col">Product Quantity</th>
 
 
 
@@ -115,11 +116,13 @@
         </thead>
         <tbody>
             {% for p in product %}
+            
             <tr>
                 <td>{{ p.name }}</td>
                 <td>{{ p.category }}</td>
                 <td><img src="/media/{{p.image}}" alt="No image found" width="100" height="100">
                 </td>
+                <td>{{ p.quantity }}</td>
 
             </tr>
             {% endfor %}

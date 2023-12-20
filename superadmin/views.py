@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 import math
 from .models import Wallet
 from decimal import Decimal
+from seller.models import Category
 
 # from django.contrib.auth.decorators import login_required
 
@@ -79,10 +80,6 @@ def product_list(request):
     return render(request, "product_list.html", {"product": product})
 
 
-def categorywise_productlist(request):
-    return render(request, "categorywise_productlist.html")
-
-
 def sellerwise_list(request):
     seller = Seller.objects.all()
     return render(request, "sellerwiselist.html", {"seller": seller})
@@ -95,6 +92,19 @@ def sellerwiseindividuallist(request, id):
     print("############################################")
     print(product)
     return render(request, "sellerwiselist_select.html", {"product": product})
+
+
+def categorywise_productlist(request):
+    category = Category.objects.all()
+    # print(category)
+    return render(request, "categorywise_productlist.html", {"category": category})
+
+
+def product_categorywise(request, id):
+    category = Category.objects.get(id=id)
+    product = Product.objects.filter(category=category)
+    print(product)
+    return render(request, "category_product.html", {"product": product})
 
 
 def superadmin_add_funds(request):
@@ -127,4 +137,8 @@ def superadmin_wallet(request):
 
 def walletwise_sellerlist(request):
     seller = Seller.objects.all()
-    return render(request, "walletwise_sellerlist.html", {"seller": seller})
+    wallet = Wallet.objects.all()
+
+    return render(
+        request, "walletwise_sellerlist.html", {"seller": seller, "wallet": wallet}
+    )

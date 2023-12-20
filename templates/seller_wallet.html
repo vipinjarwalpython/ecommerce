@@ -1,7 +1,5 @@
 {% include "header.html" %}
-<div class="container my-5 d-flex justify-content-end">
-    <a href="/seller/seller_wallet/" class="btn btn-primary my-2">My Wallet</a>
-</div>
+
 
 <body class="bg-light">
     <div class="container my-5">
@@ -12,6 +10,8 @@
                 <p class="card-text">Balance: ₹ {{ seller_wallet.balance }}</p>
 
                 <a href="/seller/add_funds/" class="btn btn-primary">Add Funds</a>
+                <a href="/seller/withdraw_funds/" class="btn btn-primary">Withdraw Funds</a>
+
                 <!-- Add other wallet functionality links/forms as needed -->
             </div>
         </div>

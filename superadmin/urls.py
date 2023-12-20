@@ -15,6 +15,23 @@ urlpatterns = [
         name="categorywise_productlist",
     ),
     path("sellerwiselist/", views.sellerwise_list, name="sellerwiselist"),
+    path("category/<int:id>/", views.product_categorywise, name="product_categorywise"),
+    # path(
+    #     "Electronicsandmobile/", views.Electronicsandmobile, name="Electronicsandmobile"
+    # ),
+    # path("Fashionandlifestyle/", views.Fashionandlifestyle, name="Fashionandlifestyle"),
+    # path("Media/", views.Media, name="Media"),
+    # path("Homeandappliances/", views.Homeandappliances, name="Homeandappliances"),
+    # path(
+    #     "Homemadeandcraftings/", views.Homemadeandcraftings, name="Homemadeandcraftings"
+    # ),
+    # path("Footwear/", views.Footwear, name="Footwear"),
+    # path("Giftsandhampers/", views.Giftsandhampers, name="Giftsandhampers"),
+    # path(
+    #     "Festivalshoppingitems/",
+    #     views.Festivalshoppingitems,
+    #     name="festivalshoppingitems",
+    # ),
     path(
         "sellerwiselist_select/<int:id>/",
         views.sellerwiseindividuallist,
@@ -26,5 +43,3 @@ urlpatterns = [
     ),
     path("walletwise_seller/", views.walletwise_sellerlist, name="walletwise_seller"),
 ]
-
-    

@@ -28,6 +28,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     image = models.ImageField(upload_to="media/")
+    quantity = models.IntegerField()
     approved = models.BooleanField(default=False)
 
     def __str__(self):

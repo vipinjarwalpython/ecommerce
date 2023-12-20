@@ -13,4 +13,5 @@ urlpatterns = [
     path("delete/<int:id>", views.delete_product, name="delete_product"),
     path("seller_wallet/", views.seller_wallet, name="seller_wallet"),
     path("add_funds/", views.add_funds, name="add_funds"),
+    path("withdraw_funds/", views.withdraw_funds, name="withdraw_funds"),
 ]

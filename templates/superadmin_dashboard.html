@@ -26,6 +26,7 @@
             background-color: #343a40;
             /* Dark background color */
             margin-bottom: 20px;
+            border-radius: 5px;
         }
 
         .navbar-brand {
@@ -58,6 +59,7 @@
             /* Adjust spacing between nav links */
             font-size: 18px;
             /* Increase font size */
+            transition: color 0.3s ease-in-out;
         }
 
         .navbar-nav .nav-link:hover {
@@ -69,6 +71,52 @@
         .content-container {
             width: 100%;
             margin: 0 auto;
+        }
+
+        /* Improved Table Styles */
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* Form Styles */
+        form {
+            display: inline-block;
+        }
+
+        /* Buttons */
+        .btn-outline-success,
+        .btn-outline-danger {
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .btn-outline-success:hover,
+        .btn-outline-success:focus {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-outline-danger:hover,
+        .btn-outline-danger:focus {
+            background-color: #dc3545;
+            color: #fff;
         }
     </style>
 </head>
@@ -82,7 +130,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Move the heading to the top of the list -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <h2 class="navbar-heading">Superadmin Dashboard</h2>
@@ -100,12 +147,11 @@
                         <a class="nav-link" href="/superadmin/product_list/">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/categorywise_productlist/">Categorywiselist</a>
+                        <a class="nav-link" href="/superadmin/categorywise_productlist/">Categorywise List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/sellerwiselist/">Sellerwiselist</a>
+                        <a class="nav-link" href="/superadmin/sellerwiselist/">Sellerwise List</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="/superadmin/logout/">Logout</a>
                     </li>
@@ -114,25 +160,21 @@
         </div>
     </nav>
 
-
     <div class="container mt-4">
         <h2>Buyers</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Buyer's Name</th>
-
-
                 </tr>
             </thead>
             <tbody>
-                {% for b in buyers %}
+                <!-- Use appropriate syntax for your template engine (e.g., Django) to render the buyers -->
+                <!-- {% for b in buyers %} -->
                 <tr>
                     <td>{{ b.buyer.username }}</td>
-
-
                 </tr>
-                {% endfor %}
+                <!-- {% endfor %} -->
             </tbody>
         </table>
 
@@ -144,11 +186,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for s in seller %}
+                <!-- Use appropriate syntax for your template engine (e.g., Django) to render the sellers -->
+                <!-- {% for s in seller %} -->
                 <tr>
                     <td>{{ s.seller.username }}</td>
                 </tr>
-                {% endfor %}
+                <!-- {% endfor %} -->
             </tbody>
         </table>
 
@@ -164,42 +207,32 @@
                 </tr>
             </thead>
             <tbody>
-                {% for p in product %}
+                <!-- Use appropriate syntax for your template engine (e.g., Django) to render the products -->
+                <!-- {% for p in product %} -->
                 <tr>
                     <td>{{ p.name }}</td>
-                    <td>{{p.seller.seller.username}}
+                    <td>{{ p.seller.seller.username }}</td>
                     <td>{{ p.category }}</td>
-                    <td><img src="/media/{{p.image}}" alt="No image found" width="100" height="100">
-                    </td>
+                    <td><img src="/media/{{ p.image }}" alt="No image found" width="100" height="100"></td>
                     <td>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <input type="number" name="id" value={{p.id}} style="display: none;">
+                            <!-- Use appropriate syntax for your template engine (e.g., Django) to handle CSRF -->
+                            <!-- {% csrf_token %} -->
+                            <input type="number" name="id" value="{{ p.id }}" style="display: none;">
                             {% if p.approved %}
-                            <!-- <input type="checkbox" checked> -->
                             <button type="submit" class="btn btn-outline-success ms-3">Approved</button>
-
                             {% else %}
-                            <!-- <span class="pe-3"><input type="checkbox"></span> -->
-                            <button type="submit" class="btn btn-outline-danger ms-3">Not
-                                Approved</button>
-
-
+                            <button type="submit" class="btn btn-outline-danger ms-3">Not Approved</button>
                             {% endif %}
                         </form>
                     </td>
                 </tr>
-                {% endfor %}
+                <!-- {% endfor %} -->
             </tbody>
         </table>
     </div>
-    <!-- <script>
-        function submitform() {
-            const form = document.getElementById("approvedform")
-            form.submit()
 
-        }
-    </script> -->
     <!-- Include Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
