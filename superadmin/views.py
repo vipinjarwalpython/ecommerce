@@ -97,47 +97,6 @@ def sellerwiseindividuallist(request, id):
     return render(request, "sellerwiselist_select.html", {"product": product})
 
 
-def Electronicsandmobile(request):
-    product = Product.objects.all()
-    return render(request, "Electronicsandmobile.html", {"product": product})
-
-
-def Fashionandlifestyle(request):
-    product = Product.objects.all()
-    return render(request, "Fashionandlifestyle.html", {"product": product})
-
-
-def Media(request):
-    product = Product.objects.all()
-    return render(request, "Media.html", {"product": product})
-
-
-def Homeandappliances(request):
-    product = Product.objects.all()
-    return render(request, "Homeandappliances.html", {"product": product})
-
-
-def Homemadeandcraftings(request):
-    product = Product.objects.all()
-    return render(request, "Homemadeandcraftings.html", {"product": product})
-
-
-def Footwear(request):
-    product = Product.objects.all()
-    return render(request, "Footwear.html", {"product": product})
-
-
-def Giftsandhampers(request):
-    product = Product.objects.all()
-    return render(request, "Giftsandhampers.html", {"product": product})
-
-
-def Festivalshoppingitems(request):
-    product = Product.objects.all()
-    return render(request, "Festivalshoppingitems.html", {"product": product})
-
-
-@login_required
 def superadmin_add_funds(request):
     if request.method == "POST":
         amount = request.POST.get("amount")

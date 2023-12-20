@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from .models import Buyer, CartItem, BuyerBilling, BillItems
+from .models import Buyer, CartItem, BuyersBilling, BillItems
 from seller.models import Product
+from superadmin.models import Wallet
+from decimal import Decimal
 
 # Create your views here.
 
@@ -37,7 +39,8 @@ def buyer_signup(request):
                 buyer=buyer,
                 phone=phone,
             )
-
+            Wallet.objects.create(walletuser=buyer, balance=0)
+            buyer.save()
             return redirect("/buyer/login/")
 
         else:
@@ -152,15 +155,15 @@ def billing(request):
         phone = request.POST.get("phone")
         notes = request.POST.get("notes")
 
-        print(cart_item, first_name, last_name)
+        # print(cart_item, first_name, last_name)
+        # print("====================================================")
 
-        cust_bill = BuyerBilling.objects.create(
-            cart_item=cart_item,
+        cust_bill = BuyersBilling.objects.create(
+            user=request.user,
             first_name=first_name,
             last_name=last_name,
             address=address,
             city=city,
-            state=state,
             postal=postal,
             country=country,
             email=email,
@@ -168,40 +171,122 @@ def billing(request):
             notes=notes,
         )
         cust_bill.save()
+        return redirect("/bill-confirmation/")
     total_ammount = 0
     for item in cart_item:
         total_ammount += item.product.price
-        # bill = BuyerBilling.objects.all()
+        # bill = BuyersBilling.objects.all()
     return render(
         request,
         "checkout.html",
         {"cart_item": cart_item, "total_ammount": total_ammount},
     )
 
+
 def bill_confirm(request):
     userid = request.user
     cart_item = CartItem.objects.filter(user_id=userid)
     # print(cart_item)
-    cust_bill = BuyerBilling.objects.filter(user = userid)
-    print(cust_bill)
-    print(cust_bill[len(cust_bill)-1])
-    
+    cust_bill = BuyersBilling.objects.filter(user=userid)
+    last_bill = cust_bill[len(cust_bill) - 1]
+    # print(cust_bill)
+    # print(cust_bill[len(cust_bill)-1])
 
-    return render(request, 'bill_confirmation.html', {'cart_item':cart_item, 'cust_bill':cust_bill[len(cust_bill)-1]})
+    total_ammount = 0
+    for item in cart_item:
+        total_ammount += item.product.price
+
+    return render(
+        request,
+        "bill_confirmation.html",
+        {
+            "cart_item": cart_item,
+            "cust_bill": last_bill,
+            "total_ammount": total_ammount,
+        },
+    )
 
 
 def thankyou(request):
     userid = request.user
     cart_item = CartItem.objects.filter(user_id=userid)
+    # buyer_details = BuyersBilling.objects.filter(user_id=userid)
     print(cart_item)
     for item in cart_item:
-        print(item)
+        print(item.product)
+        print(item.quantity)
+        print(item.user)
+        print(item.total_price)
+        print("====================================================")
+
         final_bill = BillItems.objects.create(
-            product=item.product
+            # buyer_details =
+            product=item.product,
+            quantity=item.quantity,
+            user=item.user,
+            total_price=item.total_price,
         )
-    # cust_bill = BuyerBilling.objects.get(user = userid)
-    # cart_item.delete()
+        final_bill.save()
+
+    # cust_bill = BuyersBilling.objects.get(user = userid)
     # cust_bill.delete()
+    total_ammount = 0
+    for item in cart_item:
+        total_ammount += item.product.price
 
+    print(total_ammount)
 
+    buy_wallet = Wallet.objects.get(walletuser=request.user)
+    remain_ammount = buy_wallet.balance - total_ammount
+    print(remain_ammount)
+    buy_wallet.balance = remain_ammount
+    buy_wallet.save()
+    cart_item.delete()
     return render(request, "thankyou.html")
+
+
+def add_funds(request):
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+            buyer_wallet = Wallet.objects.get(walletuser=request.user)
+
+            buyer_wallet.balance += amount
+            buyer_wallet.save()
+            # Add transaction history and other logic as needed
+            return redirect("/buyer/wallet/")
+
+    return render(request, "add_funds.html")
+
+
+def withdraw_funds(request):
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+            buyer_wallet = Wallet.objects.get(walletuser=request.user)
+
+            buyer_wallet.balance -= amount
+            buyer_wallet.save()
+            # Add transaction history and other logic as needed
+            return redirect("/buyer/wallet/")
+
+    return render(request, "Withdraw_funds.html")
+
+
+def buyer_wallet(request):
+    buy_wallet = Wallet.objects.get(walletuser=request.user)
+    # print(buy_wallet)
+    # print("==================================================")
+
+    return render(request, "buyer_wallet.html", {"buy_wallet": buy_wallet})
+
+
+def buyer_dashboard(request):
+    userid = request.user.id
+    items = BillItems.objects.filter(user=userid)
+    for item in items:
+        print(item)
+
+    return render(request, "buyer_dashboard.html", {"items": items})

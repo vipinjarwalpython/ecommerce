@@ -1,0 +1,21 @@
+{% include "header.html" %}
+
+<body class="bg-light">
+    <div class="container my-5">
+        <h2 class="mb-4">Buyer Wallet</h2>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">Balance: ₹ {{ buy_wallet.balance }}</p>
+
+                <a href="/buyer/add_funds/" class="btn btn-primary">Add Funds</a>
+                <a href="/buyer/withdraw_funds/" class="btn btn-primary">Withdraw Funds</a>
+                <!-- Add other wallet functionality links/forms as needed -->
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+{% include "footer.html" %}
