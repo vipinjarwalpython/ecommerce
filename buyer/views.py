@@ -177,3 +177,31 @@ def billing(request):
         "checkout.html",
         {"cart_item": cart_item, "total_ammount": total_ammount},
     )
+
+def bill_confirm(request):
+    userid = request.user
+    cart_item = CartItem.objects.filter(user_id=userid)
+    # print(cart_item)
+    cust_bill = BuyerBilling.objects.filter(user = userid)
+    print(cust_bill)
+    print(cust_bill[len(cust_bill)-1])
+    
+
+    return render(request, 'bill_confirmation.html', {'cart_item':cart_item, 'cust_bill':cust_bill[len(cust_bill)-1]})
+
+
+def thankyou(request):
+    userid = request.user
+    cart_item = CartItem.objects.filter(user_id=userid)
+    print(cart_item)
+    for item in cart_item:
+        print(item)
+        final_bill = BillItems.objects.create(
+            product=item.product
+        )
+    # cust_bill = BuyerBilling.objects.get(user = userid)
+    # cart_item.delete()
+    # cust_bill.delete()
+
+
+    return render(request, "thankyou.html")
