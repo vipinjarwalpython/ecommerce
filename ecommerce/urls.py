@@ -28,6 +28,7 @@ urlpatterns = [
     path("bill/", buyer_views.billing, name="billing"),
     path("bill-confirmation/", buyer_views.bill_confirm, name="billing"),
     path("buyer/", include("buyer.urls")),
+    path("superadmin/", include("superadmin.urls")),
 ]
 
 

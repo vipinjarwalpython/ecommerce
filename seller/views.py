@@ -35,10 +35,9 @@ def seller_register(request):
             seller=user,
             seller_mobilenumber=seller_mobilenumber,
         )
-        print(seller)
-        print(user)
 
-        Wallet.objects.create(walletuser=user, balance=0)
+        Wallet.objects.create(walletuser=user, balance=0, user_type="seller")
+        user.save()
 
         return redirect("/seller/login/")
     return render(request, "seller_register.html")
@@ -48,13 +47,14 @@ def seller_login(request):
     if request.method == "POST":
         seller_username = request.POST.get("seller_username")
         seller_password = request.POST.get("seller_password")
+        user_seller = User.objects.get(username=seller_username)
 
+        if not Seller.objects.filter(seller_id=user_seller.id).exists():
+            messages.error(request, "Invalid username or password")
+            return redirect("/seller/login/")
         user = authenticate(username=seller_username, password=seller_password)
-
-        print(user)
         if user is None:
             messages.error(request, "Invalid username or password")
-
         else:
             login(request, user)
             return redirect("/seller/product/")
@@ -100,9 +100,8 @@ def product_registration(request):
             print(product.approved)
             # Check for admin approval or custom approval process
     userid = request.user
-    print(userid)
+
     seller = Seller.objects.get(seller=userid)
-    print(seller)
 
     products = Product.objects.filter(seller=seller)
     return render(request, "product_registration.html", {"products": products})

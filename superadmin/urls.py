@@ -42,4 +42,5 @@ urlpatterns = [
         "superadmin_add_funds/", views.superadmin_add_funds, name="superadmin_add_funds"
     ),
     path("walletwise_seller/", views.walletwise_sellerlist, name="walletwise_seller"),
+    path("walletwise_buyer/", views.walletwise_buyerlist, name="walletwise_buyer"),
 ]
