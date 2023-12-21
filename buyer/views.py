@@ -6,6 +6,7 @@ from .models import Buyer, CartItem, BuyersBilling, BillItems
 from seller.models import Product
 from superadmin.models import Wallet
 from decimal import Decimal
+import numpy
 
 # Create your views here.
 
@@ -208,17 +209,11 @@ def bill_confirm(request):
 
 
 def thankyou(request):
+    total_ammount = 0
     userid = request.user
     cart_item = CartItem.objects.filter(user_id=userid)
-    # buyer_details = BuyersBilling.objects.filter(user_id=userid)
-    print(cart_item)
-    for item in cart_item:
-        print(item.product)
-        print(item.quantity)
-        print(item.user)
-        print(item.total_price)
-        print("====================================================")
 
+    for item in cart_item:
         final_bill = BillItems.objects.create(
             # buyer_details =
             product=item.product,
@@ -228,19 +223,19 @@ def thankyou(request):
         )
         final_bill.save()
 
-    # cust_bill = BuyersBilling.objects.get(user = userid)
-    # cust_bill.delete()
-    total_ammount = 0
-    for item in cart_item:
         total_ammount += item.product.price
 
-    print(total_ammount)
+        product = Product.objects.get(name=item.product)
+        print(product.quantity)
+        product.quantity = product.quantity - item.quantity
+        product.save()
 
     buy_wallet = Wallet.objects.get(walletuser=request.user)
     remain_ammount = buy_wallet.balance - total_ammount
-    print(remain_ammount)
+
     buy_wallet.balance = remain_ammount
     buy_wallet.save()
+
     cart_item.delete()
     return render(request, "thankyou.html")
 

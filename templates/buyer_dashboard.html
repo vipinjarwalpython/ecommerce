@@ -15,6 +15,7 @@
                     <th scope="col">Product Quantity</th>
                     <th scope="col">Product Price</th>
                     <th scope="col">Total Price</th>
+                    <th scope="col">Purchase Date</th>
                 </tr>
             </thead>
             {% for item in items %}
@@ -25,6 +26,8 @@
                     <td>{{item.quantity}}</td>
                     <td>{{item.product.price}}</td>
                     <td>{{item.total_price}}</td>
+                    <td>{{item.date_added}}</td>
+
                 </tr>
 
             </tbody>

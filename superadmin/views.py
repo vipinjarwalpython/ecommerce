@@ -15,7 +15,6 @@ from seller.models import Category
 # Create your views here.
 
 
-@login_required(login_url="/")
 def superadmin_dashboard(request):
     if request.method == "POST":
         id = request.POST.get("id")
@@ -48,17 +47,19 @@ def superadmin_login(request):
     if request.method == "POST":
         username = request.POST.get("name")
         password = request.POST.get("password")
+        print(username)
+        print(password)
         if username == "superadmin" and password == "super12345":
             user = authenticate(username="superadmin", password="super12345")
+            print(user)
 
-            if user is None:
-                messages.error(request, "Invalid username or password")
-                print(messages)
-                return redirect("/")
-            else:
+            if user is not None:
                 login(request, user)
-                messages.success(request, "Login successful")
                 return redirect("/superadmin/dashboard/")
+
+            else:
+                messages.error(request, "Invalid username or password")
+                return redirect("/")
 
     return render(request, "superadminlogin.html")
 
@@ -137,8 +138,17 @@ def superadmin_wallet(request):
 
 def walletwise_sellerlist(request):
     seller = Seller.objects.all()
-    wallet = Wallet.objects.all()
+    wallet = Wallet.objects.filter(user_type = "seller")
 
     return render(
         request, "walletwise_sellerlist.html", {"seller": seller, "wallet": wallet}
+    )
+
+
+def walletwise_buyerlist(request):
+    buyer = Buyer.objects.all()
+    wallet = Wallet.objects.filter(user_type="buyer")
+
+    return render(
+        request, "walletwise_buyerlist.html", {"buyer": buyer, "wallet": wallet}
     )
