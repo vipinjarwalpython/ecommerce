@@ -39,7 +39,8 @@ def buyer_signup(request):
                 buyer=buyer,
                 phone=phone,
             )
-            Wallet.objects.create(walletuser=buyer, balance=0)
+
+            Wallet.objects.create(walletuser=buyer, balance=0, user_type="buyer")
             buyer.save()
             return redirect("/buyer/login/")
 
@@ -58,11 +59,19 @@ def buyer_login(request):
             messages.error(request, "Username is not found")
             return redirect("/buyer/login/")
 
-        buyer = authenticate(username=username, password=password)
-        print(buyer)
+        buyer_user = User.objects.get(username=username)
+
+        if not Buyer.objects.filter(buyer_id=buyer_user.id).exists():
+            messages.error(request, "Username is not found")
+            return redirect("/buyer/login/")
+
+        # buyeruser_type = Buyer.objects.get(buyer_id=buyer_user.id)
+        buyer = authenticate(request, username=username, password=password)
+        # print(buyer_user.id)
+        # print(buyeruser_type.exists())
 
         if buyer is None:
-            messages.error(request, "password is incorrect")
+            messages.error(request, "Password is Incorrect")
             return redirect("/buyer/login/")
         else:
             login(request, buyer)
@@ -79,6 +88,12 @@ def buyer_logout(request):
 def product_list(request):
     products = Product.objects.all()
     return render(request, "shop.html", {"products": products})
+
+
+# def cart_count_item(request):
+#     user = request.user
+#     cart_item_count = CartItem.objects.count()
+#     print(cart_item_count)
 
 
 def view_cart(request):
@@ -172,14 +187,20 @@ def billing(request):
         )
         cust_bill.save()
         return redirect("/bill-confirmation/")
-    total_ammount = 0
+
+    total_price = []
     for item in cart_item:
-        total_ammount += item.product.price
-        # bill = BuyersBilling.objects.all()
+        item.total_price = item.product.price * item.quantity
+        item.save()
+
+        total_price.append(item.total_price)
+        # price = CartItem.objects.get(total_price=raw_price)
+        # print(price)
+    total__product_price = sum(total_price)
     return render(
         request,
         "checkout.html",
-        {"cart_item": cart_item, "total_ammount": total_ammount},
+        {"cart_item": cart_item, "total_ammount": total__product_price},
     )
 
 
@@ -192,9 +213,15 @@ def bill_confirm(request):
     # print(cust_bill)
     # print(cust_bill[len(cust_bill)-1])
 
-    total_ammount = 0
+    total_price = []
     for item in cart_item:
-        total_ammount += item.product.price
+        item.total_price = item.product.price * item.quantity
+        item.save()
+
+        total_price.append(item.total_price)
+        # price = CartItem.objects.get(total_price=raw_price)
+        # print(price)
+    total__product_price = sum(total_price)
 
     return render(
         request,
@@ -202,7 +229,7 @@ def bill_confirm(request):
         {
             "cart_item": cart_item,
             "cust_bill": last_bill,
-            "total_ammount": total_ammount,
+            "total_ammount": total__product_price,
         },
     )
 
@@ -213,11 +240,11 @@ def thankyou(request):
     # buyer_details = BuyersBilling.objects.filter(user_id=userid)
     print(cart_item)
     for item in cart_item:
-        print(item.product)
-        print(item.quantity)
-        print(item.user)
-        print(item.total_price)
-        print("====================================================")
+        # print(item.product)
+        # print(item.quantity)
+        # print(item.user)
+        # print(item.total_price)
+        # print("====================================================")
 
         final_bill = BillItems.objects.create(
             # buyer_details =
@@ -234,11 +261,11 @@ def thankyou(request):
     for item in cart_item:
         total_ammount += item.product.price
 
-    print(total_ammount)
+    # print(total_ammount)
 
     buy_wallet = Wallet.objects.get(walletuser=request.user)
     remain_ammount = buy_wallet.balance - total_ammount
-    print(remain_ammount)
+    # print(remain_ammount)
     buy_wallet.balance = remain_ammount
     buy_wallet.save()
     cart_item.delete()
@@ -286,7 +313,6 @@ def buyer_wallet(request):
 def buyer_dashboard(request):
     userid = request.user.id
     items = BillItems.objects.filter(user=userid)
-    for item in items:
-        print(item)
-
+    # for item in items:
+    # print(item.date_added)
     return render(request, "buyer_dashboard.html", {"items": items})

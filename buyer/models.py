@@ -4,11 +4,13 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from seller.models import Product
 
+
 # Create your models here.
 
 
 class Buyer(models.Model):
     buyer = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_type = models.CharField(max_length=10, default="buyer")
     phone = models.CharField(max_length=15, blank=True, null=True)
 
     def __str__(self):
@@ -19,7 +21,7 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateField(auto_now_add=True)
     total_price = models.IntegerField(default=0)
 
     def __str__(self):

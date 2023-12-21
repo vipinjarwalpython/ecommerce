@@ -81,7 +81,18 @@
                             {% endif %}
                         </div>
                     </li>
-                    <li><a class="nav-link" href="/cart/"><img src="/static/images/cart.svg"></a></li>
+
+                    <li>
+                        <span class=" position-relative">
+                            <a class="nav-link" href="/cart/"><img src="/static/images/cart.svg"></a>
+                            {% if counter %}
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{counter}}
+                            </span>
+                            {% endif %}
+                        </span>
+                    </li>
 
                 </ul>
 
