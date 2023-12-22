@@ -9,6 +9,8 @@ import math
 from .models import Wallet
 from decimal import Decimal
 from seller.models import Category
+from buyer.models import BillItems
+from django.contrib.auth.models import User
 
 # from django.contrib.auth.decorators import login_required
 
@@ -138,17 +140,44 @@ def superadmin_wallet(request):
 
 def walletwise_sellerlist(request):
     seller = Seller.objects.all()
-    wallet = Wallet.objects.filter(user_type = "seller")
+    wallet = Wallet.objects.filter(user_type="seller")
 
     return render(
         request, "walletwise_sellerlist.html", {"seller": seller, "wallet": wallet}
     )
 
 
-def walletwise_buyerlist(request):
-    buyer = Buyer.objects.all()
-    wallet = Wallet.objects.filter(user_type="buyer")
+# def settlement(request):
+    user_item_list = []
+    user_price_list = []
+
+    # items_purchased = BillItems.objects.all()
+    users = User.objects.all()
+    for user in users:
+        user_item = BillItems.objects.filter(user_id=user.id)
+        for u in user_item:
+            user_item_list.append(u.user)
+            user_price_list.append(u.total_price)
+    #         user_item_list.append(u.total_price)
+    print(user_item_list)
+    print(user_price_list)
 
     return render(
-        request, "walletwise_buyerlist.html", {"buyer": buyer, "wallet": wallet}
+        request,
+        "settlement.html",
     )
+    # total_price = 0
+    # for items in items_purchased:
+    #     # print(items.user)
+    #     print(items)
+    # print("===================================================")
+    # raw_amount = items.product.price * items.quantity
+    # total_price = total_price + raw_amount
+    # print("===================================================")
+    # print(total_price)
+
+    #     if items.user == "vicky":
+    #         total_price += items.product.price
+    # print(total_price)
+
+    return render(request, "settlement.html")
