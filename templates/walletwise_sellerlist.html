@@ -1,86 +1,21 @@
-{% include "header.html" %}
+{% include "superadmin_nav.html" %}
 
+<div class="container mt-auto py-3">
 
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <title>sellerwise Wallet</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="" />
-    <link rel="icon" href="favicon.png">
-</head>
-
-<body>
-    <section class="vh-100" style="background-color: #eee;">
-        <div class="container h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-lg-12 col-xl-11">
-                    <div class="card text-black" style="border-radius: 25px;">
-                        <div class="card-body p-md-5">
-                            <div class="row justify-content-center">
-                                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-
-                                                <th scope="col">seller Name</th>
-                                                <th scope="col">seller Balance</th>
-
-
-
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-
-                                            {% for w in wallet %}
-
-                                            <tr>
-                                                <td>{{w.walletuser}} :
-                                                </td>
-                                                <td>
-                                                    {{w.balance}}
-                                                </td>
-                                            </tr>
-
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-
-
-
-
-
-
-
-                                </div>
-                                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                                        class="img-fluid" alt="Sample image">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</body>
-
-</html>
-
-
-
-
-
-
-
-
-
-{% include "footer.html" %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Seller Name</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for w in wallet %}
+            <tr>
+                <td>{{w.walletuser.first_name}} {{w.walletuser.last_name}}</td>
+                <td>{{w.balance}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

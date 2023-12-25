@@ -1,144 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+{% include "superadmin_nav.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Superadmin Dashboard</title>
-    <!-- Include Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<div class="container mt-auto py-3">
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding: 20px;
-            font-family: 'Arial', sans-serif;
-        }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category Name</th>
 
-        h2 {
-            margin-bottom: 20px;
-            color: #007bff;
-        }
-
-        /* Updated Navbar Styles */
-        .navbar {
-            background-color: #343a40;
-            /* Dark background color */
-            margin-bottom: 20px;
-        }
-
-        .navbar-brand {
-            color: #fff;
-            /* White text color */
-            font-size: 24px;
-            /* Increase font size */
-            font-weight: bold;
-            /* Make it bold */
-            margin-right: 30px;
-            /* Adjust margin for better spacing */
-        }
-
-        .navbar-toggler-icon {
-            background-color: #fff;
-            /* White color for the hamburger icon */
-        }
-
-        .navbar-nav {
-            flex-direction: column;
-            /* Arrange nav links in a column */
-            margin-top: 20px;
-            /* Adjust top margin */
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff;
-            /* White text color for nav links */
-            margin: 10px 0;
-            /* Adjust spacing between nav links */
-            font-size: 18px;
-            /* Increase font size */
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #007bff;
-            /* Change text color on hover */
-        }
-
-        /* Full-width container for content */
-        .content-container {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .button {
-            background-color: #04AA6D;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Move the heading to the top of the list -->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <h2 class="navbar-heading">Superadmin Dashboard</h2>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/dashboard/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Buyers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/seller_list/">Seller</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/product_list/">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/categorywise_productlist/">Categorywiselist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/logout/">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div>
-        {% for cat in category %}
-        <div><a href="/superadmin/category/{{cat.id}}/"><button class="button button1"
-                    type="submit">{{cat}}</button></a>
-        </div>
-        {% endfor %}
-
-
-
-    </div>
-
-</body>
-
-</html>
-
-
-
-<!-- Include Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cat in category %}
+            <tr>
+                <td><a href="/superadmin/category/{{cat.id}}/"><button class="button button1"
+                            type="submit">{{cat}}</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

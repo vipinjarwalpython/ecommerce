@@ -1,4 +1,4 @@
-{% include "header.html" %}
+{% include "superadmin_nav.html" %}
 
 
 <body class="bg-light">
@@ -10,19 +10,11 @@
                 <p class="card-text">Balance: ₹ {{ superadmin_wallet.balance }}</p>
 
                 <a href="/superadmin/superadmin_add_funds/" class="btn btn-primary">Add Funds</a>
+                <a href="/superadmin/superadmin_deduct_funds/" class="btn btn-primary">Withdraw Funds</a>
                 <!-- Add other wallet functionality links/forms as needed -->
             </div>
         </div>
+        <br><br>
         <div> <a href="/superadmin/walletwise_seller/"><button class="btn btn-outline-success">Seller
                     wallet</button></a></div>
-        
-        <div> <a href=""><button class="btn btn-outline-success">Seller Items sold</button></a></div>
-        <div> <a href=""><button class="btn btn-outline-success">Buyer Items purchased</button></a></div>
-
-
-
     </div>
-
-</body>
-
-{% include "footer.html" %}

@@ -8,6 +8,7 @@ urlpatterns = [
     # path("superadmin_register/", views.superadmin_register, name="superadmin_register"),
     path("logout/", views.superadmin_logout, name="superadmin_logout"),
     path("seller_list/", views.seller_list, name="seller_list"),
+    path("buyer_list/", views.buyer_list, name="buyer_list"),
     path("product_list/", views.product_list, name="product_list"),
     path(
         "categorywise_productlist/",
@@ -40,6 +41,11 @@ urlpatterns = [
     path("superadmin_wallet/", views.superadmin_wallet, name="superadmin_wallet"),
     path(
         "superadmin_add_funds/", views.superadmin_add_funds, name="superadmin_add_funds"
+    ),
+    path(
+        "superadmin_deduct_funds/",
+        views.superadmin_withdraw_funds,
+        name="superadmin_withdraw_funds",
     ),
     path("walletwise_seller/", views.walletwise_sellerlist, name="walletwise_seller"),
     path("settlement/", views.settlement, name="settlement"),
