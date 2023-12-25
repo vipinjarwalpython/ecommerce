@@ -85,10 +85,10 @@
                     <li>
                         <span class=" position-relative">
                             <a class="nav-link" href="/cart/"><img src="/static/images/cart.svg"></a>
-                            {% if counter %}
+                            {% if cart_item_count %}
                             <span
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{counter}}
+                                {{ cart_item_count }}
                             </span>
                             {% endif %}
                         </span>
