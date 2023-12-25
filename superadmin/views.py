@@ -33,6 +33,7 @@ def superadmin_dashboard(request):
     buyers = Buyer.objects.all()
     seller = Seller.objects.all()
     product = Product.objects.all()
+    category = Category.objects.all()
 
     # print(buyers)
     # print(seller)
@@ -41,7 +42,7 @@ def superadmin_dashboard(request):
     return render(
         request,
         "superadmin_dashboard.html",
-        {"buyers": buyers, "seller": seller, "product": product},
+        {"buyers": buyers, "seller": seller, "product": product, "category": category},
     )
 
 
@@ -75,6 +76,12 @@ def seller_list(request):
     seller = Seller.objects.all()
 
     return render(request, "seller_list.html", {"seller": seller})
+
+
+def buyer_list(request):
+    buyer = Buyer.objects.all()
+
+    return render(request, "buyer_list.html", {"buyer": buyer})
 
 
 def product_list(request):
@@ -128,6 +135,26 @@ def superadmin_add_funds(request):
             return redirect("/superadmin/superadmin_wallet/")
 
     return render(request, "superadmin_add_funds.html")
+
+
+def superadmin_withdraw_funds(request):
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+            try:
+                superadmin_wallet = Wallet.objects.get(walletuser=request.user)
+
+            except Wallet.DoesNotExist:
+                # Redirect the user to create the wallet if it doesn't exist
+                return redirect("/")
+
+            superadmin_wallet.balance = superadmin_wallet.balance - amount
+            superadmin_wallet.save()
+            # Add transaction history and other logic as needed
+            return redirect("/superadmin/superadmin_wallet/")
+
+    return render(request, "superadmin_withdraw_funds.html")
 
 
 def superadmin_wallet(request):

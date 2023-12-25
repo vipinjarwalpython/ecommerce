@@ -6,14 +6,15 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electronics and Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Superadmin Dashboard</title>
 
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="/superadmin/dashboard/">Admin</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +26,7 @@
                         <a class="nav-link active" aria-current="page" href="/superadmin/dashboard/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Buyers</a>
+                        <a class="nav-link" href="/superadmin/buyer_list/">Buyers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/superadmin/seller_list/">Seller</a>
@@ -37,9 +38,9 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="/superadmin/product_list/">Products</a></li>
-                            <li><a class="dropdown-item" href="/superadmin/categorywise_productlist/">Categorywise
+                            <!-- <li><a class="dropdown-item" href="/superadmin/categorywise_productlist/">Categorywise
                                     List</a></li>
-                            <li><a class="dropdown-item" href="/superadmin/sellerwiselist/">Sellerwise List</a></li>
+                            <li><a class="dropdown-item" href="/superadmin/sellerwiselist/">Sellerwise List</a></li> -->
                             <li><a class="dropdown-item" href="/superadmin/settlement/">Settlement Page</a></li>
                         </ul>
                     </li>
@@ -53,41 +54,3 @@
             </div>
         </div>
     </nav>
-    <section class="vh-100">
-        <div class="container-fluid h-custom">
-            <div class="row d-flex justify-content-center align-items-center h-100 col-md-9">
-                <div class="col-md-6">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                        class="img-fluid" alt="Sample image">
-                </div>
-                <div class="col-md-6">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Seller Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for s in seller %}
-                            <tr>
-                                <td>
-                                    <a href="/superadmin/sellerwiselist_select/{{s.id}}/">
-                                        <button class="btn btn-outline-success">{{s.seller.username}}</button>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div
-                class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-                <!-- Copyright -->
-            </div>
-        </div>
-    </section>
-
-</body>
-
-</html>

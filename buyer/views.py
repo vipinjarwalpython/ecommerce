@@ -89,24 +89,28 @@ def product_list(request):
 
 def view_cart(request):
     total_price = []
-    cart_items = CartItem.objects.filter(user=request.user)
+    user = request.user
+    if not user.is_authenticated:
+        return redirect("/")
+    else:
+        cart_items = CartItem.objects.filter(user=request.user)
 
-    for item in cart_items:
-        item.total_price = item.product.price * item.quantity
-        item.save()
+        for item in cart_items:
+            item.total_price = item.product.price * item.quantity
+            item.save()
 
-        total_price.append(item.total_price)
+            total_price.append(item.total_price)
 
-    total__product_price = sum(total_price)
+        total__product_price = sum(total_price)
 
-    return render(
-        request,
-        "cart.html",
-        {
-            "cart_items": cart_items,
-            "total__product_price": total__product_price,
-        },
-    )
+        return render(
+            request,
+            "cart.html",
+            {
+                "cart_items": cart_items,
+                "total__product_price": total__product_price,
+            },
+        )
 
 
 def add_to_cart(request, id):

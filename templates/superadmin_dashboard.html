@@ -1,174 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
+{% include "superadmin_nav.html" %}
 
-<head>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Superadmin Dashboard</title>
-
-</head>
-
-<body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/superadmin/dashboard/">Admin</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/superadmin/dashboard/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Buyers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/seller_list/">Seller</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Products
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/superadmin/product_list/">Products</a></li>
-                            <li><a class="dropdown-item" href="/superadmin/categorywise_productlist/">Categorywise
-                                    List</a></li>
-                            <li><a class="dropdown-item" href="/superadmin/sellerwiselist/">Sellerwise List</a></li>
-                            <li><a class="dropdown-item" href="/superadmin/settlement/">Settlement Page</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/superadmin_wallet/">Admin Wallet</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/logout/">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-    <div class="container mt-auto py-3">
-        <div class="row py-3">
-            <div class="col-6 border">
-                <div class="row">
-                    <h6>Buyer's Details:</h6>
-                </div>
+<div class="container mt-auto py-3">
+    <div class="row py-3">
+        <div class="col-lg-3 p-3">
+            <div class="row">
                 <div class="row row-cols-3 gx-3">
-                    {% for b in buyers %}
-                    <div class="col">
-                        <div class="card my-3">
-                            <div class="card-body">
-                                <p>Full Name : {{ b.buyer.first_name }} {{ b.buyer.last_name }}</p>
-                                <p>Phone : {{ b.phone }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+                    <table class="table table-hover">
+                        <div class="col-lg-8 m-auto">
 
-            <div class="col-6 border">
-                <h6>Seller's Details:</h6>
-            </div>
-            <div class="row row-cols-3 gx-3">
-                {% for s in seller %}
-                <div class="col">
-                    <div class="card my-3">
-                        <div class="card-body">
-                            <p>Full Name : {{ s.seller.first_name }} {{ s.seller.last_name }}</p>
-                            <p>Phone : {{ s.seller_mobilenumber }}</p>
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <h3>Buyer's Details</h3>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for b in buyers %}
+                                <tr>
+                                    <td>{{ b.buyer.first_name }} {{ b.buyer.last_name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
                         </div>
-                    </div>
+                    </table>
                 </div>
-                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-3 p-3">
+            <div class="row">
+                <div class="row row-cols-3 gx-3">
+                    <table class="table table-hover">
+                        <div class="col-lg-8 m-auto">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <h3>Seller's Details</h3>
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in seller %}
+                                <tr>
+                                    <td><a href="/superadmin/sellerwiselist_select/{{s.id}}/">
+                                            <button class="btn btn-outline-dark">{{s.seller.first_name}}
+                                                {{s.seller.last_name}}</button>
+                                        </a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 p-3">
+            <div class="row">
+                <div class="row row-cols-3 gx-3">
+                    <table class="table table-hover">
+                        <div class="col-lg-8 m-auto">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <h3>Product Category</h3>
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cat in category %}
+                                <tr>
+                                    <td><a href="/superadmin/category/{{cat.id}}/"><button class="button btn-success"
+                                                type="submit">{{cat}}</button></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </div>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container mt-4">
-        <h2>Buyers</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Buyer's Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Use appropriate syntax for your template engine (e.g., Django) to render the buyers -->
-                {% for b in buyers %}
-                <tr>
-                    <td>{{ b.buyer.username }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
 
-        <h2>Sellers</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Seller's Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for s in seller %}
-                <tr>
-                    <td>{{ s.seller.username }}</td>
-                </tr>
-                {% endfor %}
+    <h2>Products</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Seller Name</th>
+                <th scope="col">Product Category</th>
+                <th scope="col">Product Quantity</th>
+                <th scope="col">Product Price</th>
+                <th scope="col">Product Image</th>
+                <th scope="col">Product Approval</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Use appropriate syntax for your template engine (e.g., Django) to render the products -->
+            {% for p in product %}
+            <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.seller.seller.first_name }} {{ p.seller.seller.last_name }}</td>
+                <td>{{ p.category }}</td>
+                <td>{{ p.quantity }}</td>
+                <td>{{ p.price }}</td>
+                <td><img src="/media/{{ p.image }}" alt="No image found" width="100" height="100"></td>
+                <td>
+                    <form action="" method="post">
+                        {% csrf_token %}
 
-            </tbody>
-        </table>
+                        <input type="number" name="id" value="{{ p.id }}" style="display: none;">
+                        {% if p.approved %}
+                        <button type="submit" class="btn btn-outline-success ms-3">Approved</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-outline-danger ms-3">Not Approved</button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-        <h2>Products</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Seller Name</th>
-                    <th scope="col">Product Category</th>
-                    <th scope="col">Product Image</th>
-                    <th scope="col">Product Approval</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Use appropriate syntax for your template engine (e.g., Django) to render the products -->
-                {% for p in product %}
-                <tr>
-                    <td>{{ p.name }}</td>
-                    <td>{{ p.seller.seller.username }}</td>
-                    <td>{{ p.category }}</td>
-                    <td><img src="/media/{{ p.image }}" alt="No image found" width="100" height="100"></td>
-                    <td>
-                        <form action="" method="post">
-                            {% csrf_token %}
-
-                            <input type="number" name="id" value="{{ p.id }}" style="display: none;">
-                            {% if p.approved %}
-                            <button type="submit" class="btn btn-outline-success ms-3">Approved</button>
-                            {% else %}
-                            <button type="submit" class="btn btn-outline-danger ms-3">Not Approved</button>
-                            {% endif %}
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </body>
 

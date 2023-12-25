@@ -3,13 +3,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Seller's Name</th>
+                <th scope="col">Buyer's Name</th>
             </tr>
         </thead>
         <tbody>
-            {% for s in seller %}
+            {% for b in buyer %}
             <tr>
-                <td>{{ s.seller.username }}</td>
+                <td>{{ b.buyer.username }}</td>
             </tr>
             {% endfor %}
         </tbody>
