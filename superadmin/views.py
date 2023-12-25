@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from buyer.models import Buyer
+from buyer.models import Buyer, BillClone
 from seller.models import Seller
 from seller.models import Product
 from django.contrib.auth import authenticate, login, logout
@@ -9,7 +9,7 @@ import math
 from .models import Wallet
 from decimal import Decimal
 from seller.models import Category
-from buyer.models import BillItems
+from buyer.models import CartItem
 from django.contrib.auth.models import User
 
 # from django.contrib.auth.decorators import login_required
@@ -147,37 +147,35 @@ def walletwise_sellerlist(request):
     )
 
 
-# def settlement(request):
-    user_item_list = []
-    user_price_list = []
+def settlement(request):
+    # billclone = BillClone.objects.filter(bill_item_id=user.id)
+    billclone = BillClone.objects.all()
 
-    # items_purchased = BillItems.objects.all()
-    users = User.objects.all()
-    for user in users:
-        user_item = BillItems.objects.filter(user_id=user.id)
-        for u in user_item:
-            user_item_list.append(u.user)
-            user_price_list.append(u.total_price)
-    #         user_item_list.append(u.total_price)
-    print(user_item_list)
-    print(user_price_list)
+    return render(request, "settlement.html", {"billclone": billclone})
 
-    return render(
-        request,
-        "settlement.html",
+
+def final_settlement(request, id):
+    billclone = BillClone.objects.get(id=id)
+    # print(billclone.bill_item.total_price)
+
+    # Send Money buyer wallet to seller wallet deducted 95% of total bill with indivual product price
+    sellerwallet = Wallet.objects.get(
+        walletuser_id=billclone.bill_item.product.seller.seller.id
     )
-    # total_price = 0
-    # for items in items_purchased:
-    #     # print(items.user)
-    #     print(items)
-    # print("===================================================")
-    # raw_amount = items.product.price * items.quantity
-    # total_price = total_price + raw_amount
-    # print("===================================================")
-    # print(total_price)
+    # print(sellerwallet)
+    sellerwallet.balance = Decimal(sellerwallet.balance) + Decimal(
+        (billclone.bill_item.total_price * 95) / 100
+    )
+    sellerwallet.save()
 
-    #     if items.user == "vicky":
-    #         total_price += items.product.price
-    # print(total_price)
+    # Send Money buyer wallet to superadmin wallet 5% of total bill with indivual product price
+    superwallet = Wallet.objects.get(user_type="superadmin")
+    print(superwallet)
+    superwallet.balance = Decimal(superwallet.balance) + Decimal(
+        (billclone.bill_item.total_price * 5) / 100
+    )
+    superwallet.save()
 
-    return render(request, "settlement.html")
+    billclone.delete()
+
+    return render(request, "final-settlement.html")

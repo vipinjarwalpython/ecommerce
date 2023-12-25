@@ -1,18 +1,42 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Settlement Page</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
+{% include "header.html" %}
 
-        {{user_item_list}}
+<body>
+    <div class="row">
+        <div class="col-lg-8 m-auto">
+            <table class="table table-striped table-hover">
+                <div class="col-lg-8 m-auto">
 
-        
-        <script src="" async defer></script>
-    </body>
-</html>
+                    <thead>
+                        <tr>
+                            <th scope="col">Seller</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Total Ammount</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in billclone %}
+                        <tr>
+                            <th scope="row">{{item.bill_item.product.seller}}</th>
+                            <td>{{item.bill_item.user}}</td>
+                            <td>{{item.bill_item.product}}</td>
+                            <td>{{item.bill_item.total_price}}</td>
+
+                            <td><a href="/superadmin/final_settlement/{{item.id}}"><button
+                                        class="btn btn-primary">Settlement</button></a></td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </div>
+            </table>
+        </div>
+    </div>
+    <script src="" async defer></script>
+</body>
+<br>
+<br>
+<br>
+<br><br>
+{% include "footer.html" %}

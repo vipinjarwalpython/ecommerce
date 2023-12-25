@@ -28,20 +28,6 @@ class CartItem(models.Model):
         return f"{self.quantity} x {self.product.name}"
 
 
-# class BuyerBilling(models.Model):
-#     cart_item = models.ForeignKey(CartItem, on_delete=models.CASCADE)
-#     first_name = models.CharField(max_length=256)
-#     last_name = models.CharField(max_length=256)
-#     address = models.TextField()
-#     city = models.CharField(max_length=256)
-#     state = models.CharField(max_length=256)
-#     postal = models.CharField(max_length=32)
-#     country = models.CharField(max_length=256)
-#     email = models.CharField(max_length=30)
-#     phone = models.IntegerField()
-#     notes = models.TextField()
-
-
 class BuyersBilling(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=256)
@@ -69,3 +55,10 @@ class BillItems(models.Model):
 
     def __str__(self):
         return f"{self.user} : {self.quantity} x {self.product.name}"
+
+
+class BillClone(models.Model):
+    bill_item = models.ForeignKey(BillItems, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.bill_item}"

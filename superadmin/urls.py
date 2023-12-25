@@ -42,5 +42,6 @@ urlpatterns = [
         "superadmin_add_funds/", views.superadmin_add_funds, name="superadmin_add_funds"
     ),
     path("walletwise_seller/", views.walletwise_sellerlist, name="walletwise_seller"),
-    # path("settlement/", views.settlement, name="settlement"),
+    path("settlement/", views.settlement, name="settlement"),
+    path("final_settlement/<int:id>/", views.final_settlement, name="final_settlement"),
 ]
