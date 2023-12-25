@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from .models import Buyer, CartItem, BuyersBilling, BillItems
+from .models import Buyer, CartItem, BuyersBilling, BillItems, BillClone
 from seller.models import Product, Seller
 from superadmin.models import Wallet
 from decimal import Decimal
@@ -238,27 +238,14 @@ def thankyou(request):
         product.quantity = product.quantity - item.quantity
         product.save()
 
+        billclone = BillClone.objects.create(bill_item=final_bill)
+        billclone.save()
+
     buy_wallet = Wallet.objects.get(walletuser=request.user)
     remain_ammount = buy_wallet.balance - total_ammount
 
     buy_wallet.balance = remain_ammount
     buy_wallet.save()
-
-    user_item = CartItem.objects.all()
-
-    for u in user_item:
-        # Send Money buyer wallet to seller wallet deducted 95% of total bill with indivual product price
-        sellerwallet = Wallet.objects.get(walletuser_id=u.product.seller.seller.id)
-        sellerwallet.balance = Decimal(sellerwallet.balance) + Decimal(
-            (u.total_price * 95) / 100
-        )
-        sellerwallet.save()
-        # Send Money buyer wallet to superadmin wallet 5% of total bill with indivual product price
-        superwallet = Wallet.objects.get(user_type="superadmin")
-        superwallet.balance = Decimal(superwallet.balance) + Decimal(
-            (u.total_price * 5) / 100
-        )
-        superwallet.save()
 
     cart_item.delete()
     return render(request, "thankyou.html")
