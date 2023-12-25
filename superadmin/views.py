@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from buyer.models import Buyer, BillClone
+from buyer.models import Buyer, BillClone, BillItems
 from seller.models import Seller
 from seller.models import Product
 from django.contrib.auth import authenticate, login, logout
@@ -206,3 +206,10 @@ def final_settlement(request, id):
     billclone.delete()
 
     return render(request, "final-settlement.html")
+
+
+def buyer_dashboard(request, id):
+    items = BillItems.objects.filter(user_id=id)
+    print(items)
+
+    return render(request, "buyer_dashboard_super.html", {"items": items})
