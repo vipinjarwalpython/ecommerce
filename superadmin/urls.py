@@ -50,4 +50,5 @@ urlpatterns = [
     path("walletwise_seller/", views.walletwise_sellerlist, name="walletwise_seller"),
     path("settlement/", views.settlement, name="settlement"),
     path("final_settlement/<int:id>/", views.final_settlement, name="final_settlement"),
+    path("dashboard/<int:id>/", views.buyer_dashboard, name="dashboard"),
 ]
