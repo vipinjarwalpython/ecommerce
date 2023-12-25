@@ -6,7 +6,6 @@ from .models import Buyer, CartItem, BuyersBilling, BillItems
 from seller.models import Product
 from superadmin.models import Wallet
 from decimal import Decimal
-import numpy
 
 # Create your views here.
 
@@ -36,7 +35,7 @@ def buyer_signup(request):
                 password=password1,
             )
 
-            buyer_extra_fields = Buyer.objects.create(
+            Buyer.objects.create(
                 buyer=buyer,
                 phone=phone,
             )
@@ -66,10 +65,7 @@ def buyer_login(request):
             messages.error(request, "Username is not found")
             return redirect("/buyer/login/")
 
-        # buyeruser_type = Buyer.objects.get(buyer_id=buyer_user.id)
         buyer = authenticate(request, username=username, password=password)
-        # print(buyer_user.id)
-        # print(buyeruser_type.exists())
 
         if buyer is None:
             messages.error(request, "Password is Incorrect")
@@ -91,24 +87,16 @@ def product_list(request):
     return render(request, "shop.html", {"products": products})
 
 
-# def cart_count_item(request):
-#     user = request.user
-#     cart_item_count = CartItem.objects.count()
-#     print(cart_item_count)
-
-
 def view_cart(request):
     total_price = []
     cart_items = CartItem.objects.filter(user=request.user)
-    # print(cart_items)
-    # print(cart_items)
+
     for item in cart_items:
         item.total_price = item.product.price * item.quantity
         item.save()
 
         total_price.append(item.total_price)
-        # price = CartItem.objects.get(total_price=raw_price)
-        # print(price)
+
     total__product_price = sum(total_price)
 
     return render(
@@ -171,9 +159,6 @@ def billing(request):
         phone = request.POST.get("phone")
         notes = request.POST.get("notes")
 
-        # print(cart_item, first_name, last_name)
-        # print("====================================================")
-
         cust_bill = BuyersBilling.objects.create(
             user=request.user,
             first_name=first_name,
@@ -195,8 +180,7 @@ def billing(request):
         item.save()
 
         total_price.append(item.total_price)
-        # price = CartItem.objects.get(total_price=raw_price)
-        # print(price)
+
     total__product_price = sum(total_price)
     return render(
         request,
@@ -211,8 +195,6 @@ def bill_confirm(request):
     # print(cart_item)
     cust_bill = BuyersBilling.objects.filter(user=userid)
     last_bill = cust_bill[len(cust_bill) - 1]
-    # print(cust_bill)
-    # print(cust_bill[len(cust_bill)-1])
 
     total_price = []
     for item in cart_item:
@@ -220,8 +202,7 @@ def bill_confirm(request):
         item.save()
 
         total_price.append(item.total_price)
-        # price = CartItem.objects.get(total_price=raw_price)
-        # print(price)
+
     total__product_price = sum(total_price)
 
     return render(
@@ -299,8 +280,6 @@ def withdraw_funds(request):
 
 def buyer_wallet(request):
     buy_wallet = Wallet.objects.get(walletuser=request.user)
-    # print(buy_wallet)
-    # print("==================================================")
 
     return render(request, "buyer_wallet.html", {"buy_wallet": buy_wallet})
 
@@ -308,6 +287,5 @@ def buyer_wallet(request):
 def buyer_dashboard(request):
     userid = request.user.id
     items = BillItems.objects.filter(user=userid)
-    # for item in items:
-    # print(item.date_added)
+
     return render(request, "buyer_dashboard.html", {"items": items})

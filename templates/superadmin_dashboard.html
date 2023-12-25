@@ -1,141 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<a href="/superadmin/superadmin_wallet/" class="btn btn-primary my-2">My Wallet</a>
 
 <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Superadmin Dashboard</title>
-    <!-- Include Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding: 20px;
-            font-family: 'Arial', sans-serif;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            color: #007bff;
-        }
-
-        /* Updated Navbar Styles */
-        .navbar {
-            background-color: #343a40;
-            /* Dark background color */
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
-        .navbar-brand {
-            color: #fff;
-            /* White text color */
-            font-size: 24px;
-            /* Increase font size */
-            font-weight: bold;
-            /* Make it bold */
-            margin-right: 30px;
-            /* Adjust margin for better spacing */
-        }
-
-        .navbar-toggler-icon {
-            background-color: #fff;
-            /* White color for the hamburger icon */
-        }
-
-        .navbar-nav {
-            flex-direction: column;
-            /* Arrange nav links in a column */
-            margin-top: 20px;
-            /* Adjust top margin */
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff;
-            /* White text color for nav links */
-            margin: 10px 0;
-            /* Adjust spacing between nav links */
-            font-size: 18px;
-            /* Increase font size */
-            transition: color 0.3s ease-in-out;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #007bff;
-            /* Change text color on hover */
-        }
-
-        /* Full-width container for content */
-        .content-container {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Improved Table Styles */
-        table {
-            width: 100%;
-            margin-bottom: 20px;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        tbody tr:hover {
-            background-color: rgba(0, 123, 255, 0.1);
-        }
-
-        /* Form Styles */
-        form {
-            display: inline-block;
-        }
-
-        /* Buttons */
-        .btn-outline-success,
-        .btn-outline-danger {
-            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-        }
-
-        .btn-outline-success:hover,
-        .btn-outline-success:focus {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .btn-outline-danger:hover,
-        .btn-outline-danger:focus {
-            background-color: #dc3545;
-            color: #fff;
-        }
-    </style>
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/superadmin/dashboard/">Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <h2 class="navbar-heading">Superadmin Dashboard</h2>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/dashboard/">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/superadmin/dashboard/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Buyers</a>
@@ -143,14 +31,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/superadmin/seller_list/">Seller</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/product_list/">Products</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Products
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/superadmin/product_list/">Products</a></li>
+                            <li><a class="dropdown-item" href="/superadmin/categorywise_productlist/">Categorywise
+                                    List</a></li>
+                            <li><a class="dropdown-item" href="/superadmin/sellerwiselist/">Sellerwise List</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/categorywise_productlist/">Categorywise List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/superadmin/sellerwiselist/">Sellerwise List</a>
+                        <a class="nav-link" href="/superadmin/superadmin_wallet/">Admin Wallet</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/superadmin/logout/">Logout</a>
@@ -160,6 +54,32 @@
         </div>
     </nav>
 
+
+    <div class="container mt-auto py-3">
+        <div class="row py-3">
+            <div class="col-6 border">
+                <div class="row">
+                    <h6>Buyer's Details:</h6>
+                </div>
+                <div class="row row-cols-3 gx-3">
+                    {% for b in buyers %}
+                    <div class="col">
+                        <div class="card my-3">
+                            <div class="card-body">
+                                <p>Full Name : {{ b.buyer.first_name }} {{ b.buyer.last_name }}</p>
+                                <p>Phone : {{ b.phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-6 border">
+                Seller's Name
+            </div>
+
+        </div>
+    </div>
     <div class="container mt-4">
         <h2>Buyers</h2>
         <table class="table">
@@ -170,11 +90,11 @@
             </thead>
             <tbody>
                 <!-- Use appropriate syntax for your template engine (e.g., Django) to render the buyers -->
-                <!-- {% for b in buyers %} -->
+                {% for b in buyers %}
                 <tr>
                     <td>{{ b.buyer.username }}</td>
                 </tr>
-                <!-- {% endfor %} -->
+                {% endfor %}
             </tbody>
         </table>
 
@@ -186,12 +106,11 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Use appropriate syntax for your template engine (e.g., Django) to render the sellers -->
-                <!-- {% for s in seller %} -->
+
                 <tr>
                     <td>{{ s.seller.username }}</td>
                 </tr>
-                <!-- {% endfor %} -->
+
             </tbody>
         </table>
 
@@ -208,7 +127,7 @@
             </thead>
             <tbody>
                 <!-- Use appropriate syntax for your template engine (e.g., Django) to render the products -->
-                <!-- {% for p in product %} -->
+                {% for p in product %}
                 <tr>
                     <td>{{ p.name }}</td>
                     <td>{{ p.seller.seller.username }}</td>
@@ -217,8 +136,7 @@
                     <td>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <!-- Use appropriate syntax for your template engine (e.g., Django) to handle CSRF -->
-                            <!-- {% csrf_token %} -->
+
                             <input type="number" name="id" value="{{ p.id }}" style="display: none;">
                             {% if p.approved %}
                             <button type="submit" class="btn btn-outline-success ms-3">Approved</button>
@@ -228,7 +146,7 @@
                         </form>
                     </td>
                 </tr>
-                <!-- {% endfor %} -->
+                {% endfor %}
             </tbody>
         </table>
     </div>
