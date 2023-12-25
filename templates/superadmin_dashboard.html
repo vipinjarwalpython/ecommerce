@@ -75,10 +75,22 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-6 border">
-                Seller's Name
-            </div>
 
+            <div class="col-6 border">
+                <h6>Seller's Details:</h6>
+            </div>
+            <div class="row row-cols-3 gx-3">
+                {% for s in seller %}
+                <div class="col">
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <p>Full Name : {{ s.seller.first_name }} {{ s.seller.last_name }}</p>
+                            <p>Phone : {{ s.seller_mobilenumber }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <div class="container mt-4">
@@ -107,10 +119,11 @@
                 </tr>
             </thead>
             <tbody>
-
+                {% for s in seller %}
                 <tr>
                     <td>{{ s.seller.username }}</td>
                 </tr>
+                {% endfor %}
 
             </tbody>
         </table>

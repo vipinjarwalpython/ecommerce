@@ -92,7 +92,7 @@ def sellerwiseindividuallist(request, id):
     seller = Seller.objects.get(pk=id)
 
     product = Product.objects.filter(seller=seller)
-    print("############################################")
+
     print(product)
     return render(request, "sellerwiselist_select.html", {"product": product})
 
