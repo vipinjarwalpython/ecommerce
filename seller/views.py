@@ -187,3 +187,13 @@ def seller_wallet(request):
     seller_wallet = Wallet.objects.get(walletuser=request.user)
 
     return render(request, "seller_wallet.html", {"seller_wallet": seller_wallet})
+
+
+
+
+
+
+
+
+
+
