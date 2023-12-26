@@ -257,6 +257,9 @@ def billing(request):
             item.save()
             total_price.append(item.total_price)
 
+            if item.quantity == 0:
+                cart_items.delete()
+
         total__product_price = sum(total_price)
 
         return render(
@@ -265,10 +268,114 @@ def billing(request):
             {"cart_item": cart_item, "total_ammount": total__product_price},
         )
 
+<<<<<<< HEAD
     except Exception as e:
         # Log the exception or handle it as needed
         print(f"An error occurred during billing: {str(e)}")
         return redirect("/checkout-error/")
+=======
+
+def add_to_cart(request, id):
+    product = Product.objects.get(id=id)
+    cart_item, created = CartItem.objects.get_or_create(
+        product=product, user=request.user
+    )
+
+    cart_item.quantity = cart_item.quantity + 1
+    cart_item.save()
+    return redirect("/shop/")
+
+
+def remove_from_cart(request, id):
+    cart_item = CartItem.objects.get(id=id)
+    cart_item.delete()
+    return redirect("/cart/")
+
+
+def plus_to_cart(request, id):
+    product = Product.objects.get(id=id)
+    print(product.quantity)
+    if product.quantity > 0:
+        cart_item, created = CartItem.objects.get_or_create(
+            product=product, user=request.user
+        )
+        cart_item.quantity = cart_item.quantity + 1
+        cart_item.save()
+        product = Product.objects.get(id=cart_item.product.id)
+        product.quantity = product.quantity - 1
+        product.save()
+        return redirect("/cart/")
+    else:
+        messages.error(request, "Product Quanity is less then 0")
+
+
+def minus_from_cart(request, id):
+    cart_item = CartItem.objects.get(id=id)
+    if cart_item.quantity > 0:
+        cart_item.quantity = cart_item.quantity - 1
+        cart_item.save()
+        product = Product.objects.get(id=cart_item.product.id)
+        product.quantity = product.quantity + 1
+        product.save()
+        return redirect("/cart/")
+    # cart_item.delete()
+    # return redirect("/cart/")
+
+
+def billing(request):
+    userid = request.user.id
+    cart_item = CartItem.objects.filter(user_id=userid)
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        address = request.POST.get("address")
+        city = request.POST.get("city")
+        postal = request.POST.get("postal")
+        country = request.POST.get("country")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        notes = request.POST.get("notes")
+
+        cust_bill = BuyersBilling.objects.create(
+            user=request.user,
+            first_name=first_name,
+            last_name=last_name,
+            address=address,
+            city=city,
+            postal=postal,
+            country=country,
+            email=email,
+            phone=phone,
+            notes=notes,
+        )
+        cust_bill.save()
+        return redirect("/bill-confirmation/")
+
+    buy_wallet = Wallet.objects.get(walletuser=request.user)
+    if buy_wallet.balance <= 0:
+        messages.error(
+            request, "Your wallet is empty! Please add funds to your wallet."
+        )
+        # return redirect("/bill/")
+
+    total_price = []
+    for item in cart_item:
+        item.total_price = item.product.price * item.quantity
+        item.save()
+
+        total_price.append(item.total_price)
+
+    total__product_price = sum(total_price)
+    return render(
+        request,
+        "checkout.html",
+        {
+            "cart_item": cart_item,
+            "total_ammount": total__product_price,
+            "buy_wallet": buy_wallet,
+        },
+    )
+>>>>>>> 32fe39df39384071ac217eac34bd165c64f7a9dc
 
 
 def bill_confirm(request):
@@ -288,6 +395,15 @@ def bill_confirm(request):
 
         total__product_price = sum(total_price)
 
+<<<<<<< HEAD
+=======
+    buy_wallet = Wallet.objects.get(walletuser=request.user)
+    if buy_wallet.balance < total__product_price:
+        messages.error(
+            request,
+            "Your wallet ammount is less then total ammount, Please add funds to your wallet.",
+        )
+>>>>>>> 32fe39df39384071ac217eac34bd165c64f7a9dc
         return render(
             request,
             "bill_confirmation.html",
@@ -295,6 +411,7 @@ def bill_confirm(request):
                 "cart_item": cart_item,
                 "cust_bill": last_bill,
                 "total_ammount": total__product_price,
+<<<<<<< HEAD
             },
         )
 
@@ -302,6 +419,22 @@ def bill_confirm(request):
         # Log the exception or handle it as needed
         print(f"An error occurred during bill confirmation: {str(e)}")
         return redirect("/bill-confirm-error/")
+=======
+                "buy_wallet": buy_wallet,
+            },
+        )
+
+    return render(
+        request,
+        "bill_confirmation.html",
+        {
+            "cart_item": cart_item,
+            "cust_bill": last_bill,
+            "total_ammount": total__product_price,
+            "buy_wallet": buy_wallet,
+        },
+    )
+>>>>>>> 32fe39df39384071ac217eac34bd165c64f7a9dc
 
 
 def thankyou(request):
@@ -321,16 +454,33 @@ def thankyou(request):
 
             total_ammount += item.product.price
 
+<<<<<<< HEAD
             product = Product.objects.get(name=item.product)
             print(product.quantity)
             product.quantity = product.quantity - item.quantity
             product.save()
+=======
+        product = Product.objects.get(name=item.product)
+        print(product.quantity)
+        if product.quantity > 0:
+            product.quantity = product.quantity - item.quantity
+            product.save()
+        else:
+            messages.error(request, "Product Quanity is less then 0")
+>>>>>>> 32fe39df39384071ac217eac34bd165c64f7a9dc
 
             billclone = BillClone.objects.create(bill_item=final_bill)
             billclone.save()
 
+<<<<<<< HEAD
         buy_wallet = Wallet.objects.get(walletuser=request.user)
         remain_ammount = buy_wallet.balance - total_ammount
+=======
+    buy_wallet = Wallet.objects.get(walletuser=request.user)
+    if buy_wallet.balance == 0:
+        messages.error(request, "Your wallet has no balance.")
+    remain_ammount = buy_wallet.balance - total_ammount
+>>>>>>> 32fe39df39384071ac217eac34bd165c64f7a9dc
 
         buy_wallet.balance = remain_ammount
         buy_wallet.save()
@@ -366,12 +516,22 @@ def add_funds(request):
 
 
 def withdraw_funds(request):
+<<<<<<< HEAD
     try:
         if request.method == "POST":
             amount = request.POST.get("amount")
             if amount is not None:
                 amount = Decimal(amount)
                 buyer_wallet = Wallet.objects.get(walletuser=request.user)
+=======
+    if request.method == "POST":
+        amount = request.POST.get("amount")
+        if amount is not None:
+            amount = Decimal(amount)
+            buyer_wallet = Wallet.objects.get(walletuser=request.user)
+            if buyer_wallet.balance == 0:
+                messages.error(request, "Your wallet has no balance.")
+>>>>>>> 32fe39df39384071ac217eac34bd165c64f7a9dc
 
                 if amount <= buyer_wallet.balance:
                     buyer_wallet.balance -= amount
