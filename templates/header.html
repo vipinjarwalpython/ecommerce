@@ -68,6 +68,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                             {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="">{{user}}</a>
                             <a class="dropdown-item" href="/buyer/wallet/">Wallet</a>
                             <a class="dropdown-item" href="/buyer/dashboard/">Dashboard</a>
                             <a class="dropdown-item" href="/buyer/logout/">Logout</a>
