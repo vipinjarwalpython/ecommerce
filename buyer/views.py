@@ -450,18 +450,6 @@ def bill_confirm(request):
         return redirect("/cart/")  # Redirect to cart page or another appropriate page
 
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import (
-    CartItem,
-    BillItems,
-    BillClone,
-    Wallet,
-    Product,
-)  # Adjust the import based on your actual model location
-from decimal import Decimal
-
-
 def thankyou(request):
     try:
         total_amount = 0
