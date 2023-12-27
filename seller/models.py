@@ -14,7 +14,7 @@ class Category(models.Model):
 
 
 class Seller(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="seller")
     user_type = models.CharField(max_length=10, default="seller")
     seller_mobilenumber = models.CharField(max_length=15, blank=True, null=True)
 

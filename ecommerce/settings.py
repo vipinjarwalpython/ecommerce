@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "seller",
     "superadmin",
     "bootstrap5",
+    "rest_framework",
+    "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,18 @@ SESSION_EXPIRE_SECONDS = 300  # Expire after 30 minutes
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = "/"  # Add your URL
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Invalid session
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
