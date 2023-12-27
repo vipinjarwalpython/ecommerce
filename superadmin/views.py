@@ -32,7 +32,7 @@ def superadmin_dashboard(request):
 
         buyers = Buyer.objects.all()
         seller = Seller.objects.all()
-        products = Product.objects.all()
+        product = Product.objects.all()
         category = Category.objects.all()
 
         return render(
@@ -41,7 +41,7 @@ def superadmin_dashboard(request):
             {
                 "buyers": buyers,
                 "seller": seller,
-                "products": products,
+                "product": product,
                 "category": category,
             },
         )
@@ -118,13 +118,11 @@ def buyer_list(request):
 
 def product_list(request):
     try:
-        products = Product.objects.all()
-        return render(request, "product_list.html", {"products": products})
-
+        product = Product.objects.all()
+        return render(request, "product_list.html", {"product": product})
     except Exception as e:
-        # Log the exception or handle it as needed
-        print(f"An error occurred while retrieving the product list: {str(e)}")
-        return render(request, "product_list_error.html")
+        print(f"An error occurred: {e}")
+        return render(request, "error_page.html")
 
 
 def sellerwise_list(request):
@@ -141,8 +139,8 @@ def sellerwise_list(request):
 def sellerwiseindividuallist(request, id):
     try:
         seller = get_object_or_404(Seller, pk=id)
-        products = Product.objects.filter(seller=seller)
-        return render(request, "sellerwiselist_select.html", {"products": products})
+        product = Product.objects.filter(seller=seller)
+        return render(request, "sellerwiselist_select.html", {"product": product})
 
     except Exception as e:
         # Log the exception or handle it as needed
@@ -170,8 +168,8 @@ def categorywise_productlist(request):
 def product_categorywise(request, id):
     try:
         category = get_object_or_404(Category, id=id)
-        products = Product.objects.filter(category=category)
-        return render(request, "category_product.html", {"products": products})
+        product = Product.objects.filter(category=category)
+        return render(request, "category_product.html", {"products": product})
 
     except Exception as e:
         # Log the exception or handle it as needed

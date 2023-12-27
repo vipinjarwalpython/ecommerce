@@ -15,3 +15,7 @@ urlpatterns = [
     path("add_funds/", views.add_funds, name="add_funds"),
     path("withdraw_funds/", views.withdraw_funds, name="withdraw_funds"),
 ]
+
+
+
+
