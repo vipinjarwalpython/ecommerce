@@ -6,9 +6,7 @@ from .models import Buyer, CartItem, BuyersBilling, BillItems, BillClone
 from seller.models import Product, Seller
 from superadmin.models import Wallet
 from decimal import Decimal
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import get_object_or_404, render, redirect
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -87,6 +85,7 @@ def buyer_login(request):
     return render(request, "buyer_login.html")
 
 
+@login_required(login_url="/buyer/login/")
 def buyer_logout(request):
     try:
         logout(request)
@@ -107,6 +106,7 @@ def product_list(request):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def view_cart(request):
     try:
         total_price = []
@@ -141,6 +141,7 @@ def view_cart(request):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def add_to_cart(request, id):
     try:
         product = Product.objects.get(id=id)
@@ -157,6 +158,7 @@ def add_to_cart(request, id):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def remove_from_cart(request, id):
     try:
         cart_item = CartItem.objects.get(id=id)
@@ -172,6 +174,7 @@ def remove_from_cart(request, id):
         return redirect("/cart/")
 
 
+@login_required(login_url="/buyer/login/")
 def plus_to_cart(request, id):
     try:
         product = Product.objects.get(id=id)
@@ -199,6 +202,7 @@ def plus_to_cart(request, id):
         return redirect("/cart/")
 
 
+@login_required(login_url="/buyer/login/")
 def minus_from_cart(request, id):
     try:
         cart_item = CartItem.objects.get(id=id)
@@ -222,6 +226,7 @@ def minus_from_cart(request, id):
         return redirect("/cart/")
 
 
+@login_required(login_url="/buyer/login/")
 def billing(request):
     try:
         userid = request.user.id
@@ -282,6 +287,7 @@ def billing(request):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def bill_confirm(request):
     try:
         userid = request.user
@@ -332,6 +338,7 @@ def bill_confirm(request):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def thankyou(request):
     try:
         total_ammount = 0
@@ -376,6 +383,7 @@ def thankyou(request):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def add_funds(request):
     try:
         if request.method == "POST":
@@ -395,6 +403,7 @@ def add_funds(request):
     return render(request, "add_funds.html")
 
 
+@login_required(login_url="/buyer/login/")
 def withdraw_funds(request):
     try:
         if request.method == "POST":
@@ -416,6 +425,7 @@ def withdraw_funds(request):
     return render(request, "Withdraw_funds.html")
 
 
+@login_required(login_url="/buyer/login/")
 def buyer_wallet(request):
     try:
         buy_wallet = Wallet.objects.get(walletuser=request.user)
@@ -426,6 +436,7 @@ def buyer_wallet(request):
         return redirect("/")
 
 
+@login_required(login_url="/buyer/login/")
 def buyer_dashboard(request):
     try:
         userid = request.user.id

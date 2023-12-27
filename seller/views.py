@@ -95,6 +95,7 @@ def seller_logout(request):
         return redirect("/seller-logout-error/")
 
 
+@login_required(login_url="/seller/login/")
 def dashboard(request):
     try:
         return render(request, "sellerdashboard.html")
@@ -105,6 +106,7 @@ def dashboard(request):
         return redirect("/seller-dashboard-error/")
 
 
+@login_required(login_url="/seller/login/")
 def product_registration(request):
     try:
         # Check if the user is authenticated
@@ -147,6 +149,7 @@ def product_registration(request):
         return redirect("/product-registration-error/")
 
 
+@login_required(login_url="/seller/login/")
 def update_product(request, id):
     try:
         product = Product.objects.get(pk=id)
@@ -166,6 +169,7 @@ def update_product(request, id):
         return redirect("/update-product-error/")
 
 
+@login_required(login_url="/seller/login/")
 def do_update_product(request, id):
     try:
         if request.method == "POST":
@@ -209,6 +213,7 @@ def do_update_product(request, id):
         return redirect("/update-product-error/")
 
 
+@login_required(login_url="/seller/login/")
 def delete_product(request, id):
     try:
         product = Product.objects.get(pk=id)
@@ -226,6 +231,7 @@ def delete_product(request, id):
         return redirect("/delete-product-error/")
 
 
+@login_required(login_url="/seller/login/")
 def product_list(request):
     try:
         products = Product.objects.filter(approved=True)
@@ -237,7 +243,7 @@ def product_list(request):
         return render(request, "error_page.html")
 
 
-@login_required
+@login_required(login_url="/seller/login/")
 def add_funds(request):
     try:
         if request.method == "POST":
@@ -264,7 +270,7 @@ def add_funds(request):
         return redirect("/add-funds-error/")
 
 
-@login_required
+@login_required(login_url="/seller/login/")
 def withdraw_funds(request):
     try:
         if request.method == "POST":
@@ -291,6 +297,7 @@ def withdraw_funds(request):
         return redirect("/withdraw-funds-error/")
 
 
+@login_required(login_url="/seller/login/")
 def seller_wallet(request):
     try:
         seller_wallet = Wallet.objects.get(walletuser=request.user)

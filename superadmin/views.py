@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url="/superadmin/login/")
 def superadmin_dashboard(request):
     try:
         if request.method == "POST":
@@ -49,7 +50,7 @@ def superadmin_dashboard(request):
     except Product.DoesNotExist:
         # Handle the case where the product with the specified ID does not exist
         print(f"Product with id {id} does not exist.")
-        return render(request, "product_not_found.html")
+        # return render(request, "product_not_found.html")
 
     except Exception as e:
         # Log the exception or handle it as needed
@@ -83,6 +84,7 @@ def superadmin_login(request):
         return render(request, "superadmin_login_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def superadmin_logout(request):
     try:
         logout(request)
@@ -94,6 +96,7 @@ def superadmin_logout(request):
         return render(request, "superadmin_logout_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def seller_list(request):
     try:
         sellers = Seller.objects.all()
@@ -105,6 +108,7 @@ def seller_list(request):
         return render(request, "seller_list_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def buyer_list(request):
     try:
         buyers = Buyer.objects.all()
@@ -116,6 +120,7 @@ def buyer_list(request):
         return render(request, "buyer_list_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def product_list(request):
     try:
         product = Product.objects.all()
@@ -125,6 +130,7 @@ def product_list(request):
         return render(request, "error_page.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def sellerwise_list(request):
     try:
         sellers = Seller.objects.all()
@@ -136,6 +142,7 @@ def sellerwise_list(request):
         return render(request, "sellerwise_list_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def sellerwiseindividuallist(request, id):
     try:
         seller = get_object_or_404(Seller, pk=id)
@@ -150,6 +157,7 @@ def sellerwiseindividuallist(request, id):
         return render(request, "sellerwise_individual_list_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def categorywise_productlist(request):
     try:
         categories = Category.objects.all()
@@ -165,11 +173,12 @@ def categorywise_productlist(request):
         return render(request, "categorywise_productlist_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def product_categorywise(request, id):
     try:
         category = get_object_or_404(Category, id=id)
         product = Product.objects.filter(category=category)
-        return render(request, "category_product.html", {"products": product})
+        return render(request, "category_product.html", {"product": product})
 
     except Exception as e:
         # Log the exception or handle it as needed
@@ -179,6 +188,7 @@ def product_categorywise(request, id):
         return render(request, "categorywise_product_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def superadmin_add_funds(request):
     if request.method == "POST":
         amount = request.POST.get("amount")
@@ -199,6 +209,7 @@ def superadmin_add_funds(request):
     return render(request, "superadmin_add_funds.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def superadmin_withdraw_funds(request):
     if request.method == "POST":
         amount = request.POST.get("amount")
@@ -219,6 +230,7 @@ def superadmin_withdraw_funds(request):
     return render(request, "superadmin_withdraw_funds.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def superadmin_wallet(request):
     try:
         superadmin_wallet = get_object_or_404(Wallet, walletuser=request.user)
@@ -236,6 +248,7 @@ def superadmin_wallet(request):
         return render(request, "superadmin_wallet_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def walletwise_sellerlist(request):
     try:
         sellers = Seller.objects.all()
@@ -254,6 +267,7 @@ def walletwise_sellerlist(request):
         return render(request, "walletwise_sellerlist_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def settlement(request):
     try:
         billclone = BillClone.objects.all()
@@ -265,6 +279,7 @@ def settlement(request):
         return render(request, "settlement_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def final_settlement(request, id):
     try:
         billclone = BillClone.objects.get(id=id)
@@ -297,6 +312,7 @@ def final_settlement(request, id):
         return render(request, "final_settlement_error.html")
 
 
+@login_required(login_url="/superadmin/login/")
 def buyer_dashboard(request, id):
     try:
         items = BillItems.objects.filter(user_id=id)
