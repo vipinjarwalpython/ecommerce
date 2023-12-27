@@ -137,5 +137,5 @@ MEDIA_URL = "/media/"
 
 SESSION_EXPIRE_SECONDS = 300  # Expire after 30 minutes
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = "/faculty/faculty_login/"  # Add your URL
+SESSION_TIMEOUT_REDIRECT = "/"  # Add your URL
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Invalid session
