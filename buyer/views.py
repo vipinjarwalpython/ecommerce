@@ -94,9 +94,8 @@ def buyer_logout(request):
 
     return redirect("/")
 
-
-# product add and purchase
-def product_list(request):
+    # product add and purchase
+    # def product_list(request):
     try:
         products = Product.objects.all()
         return render(request, "shop.html", {"products": products})

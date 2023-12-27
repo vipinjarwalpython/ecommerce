@@ -9,7 +9,7 @@ from seller.models import Product
 
 
 class Buyer(models.Model):
-    buyer = models.OneToOneField(User, on_delete=models.CASCADE)
+    buyer = models.OneToOneField(User, on_delete=models.CASCADE, related_name="buyer")
     user_type = models.CharField(max_length=10, default="buyer")
     phone = models.CharField(max_length=15, blank=True, null=True)
 
