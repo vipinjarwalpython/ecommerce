@@ -125,11 +125,9 @@ def product_list(request):
     try:
         product = Product.objects.all()
         return render(request, "product_list.html", {"product": product})
-
     except Exception as e:
-        # Log the exception or handle it as needed
-        print(f"An error occurred while retrieving the product list: {str(e)}")
-        return render(request, "product_list_error.html")
+        print(f"An error occurred: {e}")
+        return render(request, "error_page.html")
 
 
 @login_required(login_url="/superadmin/login/")

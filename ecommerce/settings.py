@@ -44,7 +44,11 @@ INSTALLED_APPS = [
     "superadmin",
     "bootstrap5",
     "rest_framework",
+<<<<<<< HEAD
     # "rest_framework_simplejwt",
+=======
+    "rest_framework_simplejwt",
+>>>>>>> 3d02127ca431b9710ecc96b55a340a05bddb41e6
 ]
 
 MIDDLEWARE = [
@@ -145,6 +149,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Invalid session
 
 
 REST_FRAMEWORK = {
+<<<<<<< HEAD
     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -156,4 +161,17 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
     "AUTH_HEADER_TYPES": ("Bearer",),
+=======
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+>>>>>>> 3d02127ca431b9710ecc96b55a340a05bddb41e6
 }

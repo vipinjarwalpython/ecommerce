@@ -34,18 +34,7 @@ urlpatterns = [
     path("buyer/api/", include("buyer.api_buyer.urls")),
     # SuperAdmin API Urls
     path("superadmin/", include("superadmin.urls")),
-    # path("superadmin/api/", include("superadmin.api_superadmin.urls")),
-    # Seller API Urls
-    # path("seller/", include("seller.urls")),
-    # path("seller/api/", include("seller.api_seller.urls")),
-    # JWT Token
-    #     path(
-    #         "api/login/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"
-    #     ),
-    #     path(
-    #         "api/login/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
-    #     ),
-    #     path("api/login/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("seller/api/", include("seller.api_seller.urls")),
 ]
 
 
