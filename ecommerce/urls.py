@@ -7,6 +7,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from seller import views as productview
 from buyer import views as buyer_views
 
+# from rest_framework_simplejwt import views as jwt_views
+# from rest_framework_simplejwt.views import TokenVerifyView
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -18,8 +21,7 @@ urlpatterns = [
     path("blog/", views.blog, name="blog"),
     path("contact/", views.contactus, name="contactus"),
     path("thankyou/", buyer_views.thankyou, name="thankyou"),
-    path("seller/", include("seller.urls")),
-    # path("", include("buyer.urls")),
+    # Buyer Functionallity
     path("cart/", buyer_views.view_cart, name="cart"),
     path("add/<int:id>/", buyer_views.add_to_cart, name="add_to_cart"),
     path("remove/<int:id>/", buyer_views.remove_from_cart, name="remove_from_cart"),
@@ -27,7 +29,10 @@ urlpatterns = [
     path("minus/<int:id>/", buyer_views.minus_from_cart, name="minus_from_cart"),
     path("bill/", buyer_views.billing, name="billing"),
     path("bill-confirmation/", buyer_views.bill_confirm, name="billing"),
+    # Buyer API Urls
     path("buyer/", include("buyer.urls")),
+    path("buyer/api/", include("buyer.api_buyer.urls")),
+    # SuperAdmin API Urls
     path("superadmin/", include("superadmin.urls")),
     path("seller/api/", include("seller.api_seller.urls")),
 ]
