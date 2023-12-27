@@ -81,13 +81,12 @@ class BuyerSignupApi(APIView):
 class BuyerLoginApi(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         try:
             data = request.data
             print(data)
-            if request.method == "GET":
-                username = data["username"]
-                password = data["password"]
+            username = data["username"]
+            password = data["password"]
 
             if not User.objects.filter(username=username).exists():
                 context = {
@@ -178,7 +177,7 @@ class BuyerApi(APIView):
 class CartItemApi(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def cartitems(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
             total_price = []
             user = request.user
