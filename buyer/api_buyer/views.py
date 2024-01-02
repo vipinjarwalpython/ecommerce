@@ -1,16 +1,12 @@
-from buyer.models import Buyer, CartItem
-from buyer.api_buyer.serializers import BuyerSerializer, CartItemSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth.models import User
-from django.contrib.auth import login, logout, authenticate
-from superadmin.models import Wallet
-from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer, BuyerSerializer
+from buyer.models import Buyer
 from rest_framework_simplejwt.tokens import RefreshToken
-
-
-# from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
 
 
 class BuyerSignupApi(APIView):
@@ -18,199 +14,99 @@ class BuyerSignupApi(APIView):
         try:
             data = request.data
             print(data)
-            first_name = data["first_name"]
-            last_name = data["last_name"]
-            username = data["username"]
-            email = data["email"]
-            phone = data["phone"]
-            password1 = data["password1"]
-            password2 = data["password2"]
+            # if data["password1"] != data["password2"]:
+            #     return Response(
+            #         {"error": "Passwords do not match"},
+            #         status=status.HTTP_400_BAD_REQUEST,
+            #     )
+            serializer = UserSerializer(data=data)
 
-            print(password1, password2)
+            if serializer.is_valid():
+                user = serializer.save(password=make_password(data.get("password")))
+                phone = data.get(
+                    "phone"
+                )  # Use get to avoid KeyError if 'phone' is not in data
 
-            if password1 != password2:
-                context = {
-                    "success": False,
-                    "message": "Password does not match.",
-                    "status": status.HTTP_406_NOT_ACCEPTABLE,
-                }
-
-                return Response(context)
-
-            if not User.objects.filter(username=username).exists():
-                buyer = User.objects.create_user(
-                    first_name=first_name,
-                    last_name=last_name,
-                    username=username,
-                    email=email,
-                    password=password1,
-                )
-
-                Buyer.objects.create(
-                    buyer=buyer,
+                buyer_obj = Buyer.objects.create(
+                    buyer=user,
                     phone=phone,
                 )
+                print(buyer_obj)
+                buyer_user = Buyer.objects.get(buyer=user)
+                print(buyer_user)
+                if buyer_obj is not None:
+                    buyer_serializer = BuyerSerializer(buyer_user)
 
-                Wallet.objects.create(walletuser=buyer, balance=0, user_type="buyer")
-                buyer.save()
+                    print(buyer_serializer.data)
 
-                refresh = RefreshToken.for_user(buyer)
-                access_token = str(refresh.access_token)
-                context = {
-                    "access_token": access_token,
-                    "success": True,
-                    "message": "Buyer created",
-                    "status": status.HTTP_201_CREATED,
-                }
+                    login(request, user)
+                    print(user.is_authenticated)
+                    refresh_token = RefreshToken.for_user(user)
+                    token = {
+                        "refresh_token": str(refresh_token),
+                        "access_token": str(refresh_token.access_token),
+                    }
+                    context = {
+                        "success": True,
+                        "status": status.HTTP_200_OK,
+                        "message": f"Welcome {user}, you are logged in",
+                        "buyer_serializer": buyer_serializer.data,
+                        "token": token,
+                    }
+                    return Response(context)
 
-                return Response(context)
+                else:
+                    user.delete()  # Rollback user creation if buyer creation fails
+                    return Response(
+                        buyer_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                    )
 
-            else:
-                context = {
-                    "success": False,
-                    "message": "User already Exists",
-                    "status": status.HTTP_406_NOT_ACCEPTABLE,
-                }
-
-                return Response(context)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as E:
-            return Response(str(E))
+            return Response({"error": str(E)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class BuyerLoginApi(APIView):
-    permission_classes = (IsAuthenticated,)
-
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
             print(data)
-            username = data["username"]
-            password = data["password"]
 
-            if not User.objects.filter(username=username).exists():
+            user = User.objects.filter(username=data["username"])
+            print(user)
+
+            if not user.exists():
                 context = {
                     "success": False,
                     "message": "Username not found",
                     "status": status.HTTP_406_NOT_ACCEPTABLE,
                 }
-
                 return Response(context)
 
-            buyer_user = User.objects.get(username=username)
-
-            if not Buyer.objects.filter(buyer_id=buyer_user.id).exists():
-                context = {
-                    "success": False,
-                    "message": "Username not found",
-                    "status": status.HTTP_406_NOT_ACCEPTABLE,
-                }
-
-                return Response(context)
-
-            buyer = authenticate(request, username=username, password=password)
-
+            buyer = authenticate(
+                request, username=data["username"], password=data["password"]
+            )
+            print(buyer)
             if buyer is None:
                 context = {
                     "success": False,
-                    "message": "Username and password is incorrect",
+                    "message": "Password Incorrect",
                     "status": status.HTTP_406_NOT_ACCEPTABLE,
                 }
-
-                return Response(context)
             else:
                 login(request, buyer)
+                refresh_token = RefreshToken.for_user(buyer)
+                token = {
+                    "refresh_token": str(refresh_token),
+                    "access_token": str(refresh_token.access_token),
+                }
                 context = {
                     "success": True,
-                    "message": "User Logged in",
+                    "message": f"Welcome {buyer}, you are logged in",
                     "status": status.HTTP_200_OK,
+                    "token": token,
                 }
-
                 return Response(context)
-
         except Exception as E:
-            return Response(str(E))
-
-
-# class BuyerLogoutApi(APIView):
-#     def get(self, request, *args, **kwargs):
-#         try:
-#             logout(request)
-#             context = {
-#                 "success": True,
-#                 "message": "User Logged out",
-#                 "status": status.HTTP_200_OK,
-#             }
-#             return Response(context)
-
-#         except Exception as E:
-#             return Response(str(E))
-
-
-class BuyerApi(APIView):
-    # permission_classes = (IsAuthenticated,)
-
-    def get(self, request, id=None):
-        try:
-            if id is not None:
-                buyer = Buyer.objects.get(pk=id)
-                serialzer = BuyerSerializer(buyer)
-                return Response(serialzer.data)
-
-            buyer = Buyer.objects.all()
-            serialzer = BuyerSerializer(buyer, many=True)
-            return Response(serialzer.data)
-
-        except Exception as E:
-            return Response(str(E), status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, id=None):
-        try:
-            buyer = Buyer.objects.get(id=id)
-            buyer.delete()
-            return Response({"msg": "Data Deleted"}, status=status.HTTP_200_OK)
-
-        except Exception as E:
-            return Response(str(E), status=status.HTTP_400_BAD_REQUEST)
-
-
-class CartItemApi(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, *args, **kwargs):
-        try:
-            total_price = []
-            user = request.user
-            if not user.is_authenticated:
-                return Response(
-                    {"error": "User not authenticated"},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-            else:
-                cart_items = CartItem.objects.filter(user=request.user)
-
-                for item in cart_items:
-                    item.total_price = item.product.price * item.quantity
-                    item.save()
-
-                    total_price.append(item.total_price)
-
-                    if item.quantity == 0:
-                        cart_items.delete()
-
-                total_product_price = sum(total_price)
-
-                serializer = CartItemSerializer(cart_items, many=True)
-
-                return Response(
-                    {
-                        "cart_items": serializer.data,
-                        "total_product_price": total_product_price,
-                    },
-                    status=status.HTTP_200_OK,
-                )
-
-        except Exception as e:
-            return Response(
-                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            return Response({"error": str(E)}, status=status.HTTP_400_BAD_REQUEST)
