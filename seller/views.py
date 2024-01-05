@@ -179,7 +179,6 @@ def do_update_product(request, id):
             image = request.FILES.get("image")
             quantity = request.POST.get("quantity")
             categoryid = request.POST.get("category")
-
             product = Product.objects.get(pk=id)
 
             if image:
@@ -241,7 +240,7 @@ def product_list(request):
         # Log the exception or handle it as needed
         print(f"An error occurred while retrieving the product list: {str(e)}")
         return render(request, "error_page.html")
-
+    
 
 @login_required(login_url="/seller/login/")
 def add_funds(request):

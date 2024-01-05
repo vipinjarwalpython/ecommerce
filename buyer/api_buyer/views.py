@@ -110,3 +110,10 @@ class BuyerLoginApi(APIView):
                 return Response(context)
         except Exception as E:
             return Response({"error": str(E)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+

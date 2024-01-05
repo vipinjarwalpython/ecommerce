@@ -34,6 +34,7 @@ urlpatterns = [
     path("buyer/api/", include("buyer.api_buyer.urls")),
     # SuperAdmin API Urls
     path("superadmin/", include("superadmin.urls")),
+    path("seller/", include("seller.urls")),
     path("seller/api/", include("seller.api_seller.urls")),
 ]
 
