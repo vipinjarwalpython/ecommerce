@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from buyer.models import *
+from superadmin.models import *
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -47,11 +48,45 @@ class BuyerSerializer(serializers.ModelSerializer):
         fields = ["id", "user_type", "phone", "buyer"]
 
     def validate_phone(self, value):
-        # Add additional phone validation logic if needed
         return value
 
 
 class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
+        fields = "__all__"
+
+
+class BuyerBillingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BuyersBilling
+        fields = [
+            "user",
+            "first_name",
+            "last_name",
+            "address",
+            "city",
+            "postal",
+            "country",
+            "email",
+            "phone",
+            "notes",
+        ]
+
+
+class BillConfirmSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BillItems
+        fields = "__all__"
+
+
+class BuyerWalletSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wallet
+        fields = "__all__"
+
+
+class BuyerDashBoardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BillItems
         fields = "__all__"

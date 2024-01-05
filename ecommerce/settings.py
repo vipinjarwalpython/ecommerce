@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "bootstrap5",
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -148,6 +149,7 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ),
 }
 
