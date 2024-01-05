@@ -526,7 +526,6 @@ class BuyerDashBoardView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             user = request.user
-            item_list = []
             items = BillItems.objects.filter(user=user)
             serializer = BuyerDashBoardSerializer(items, many=True)
             buyer_items = serializer.data
