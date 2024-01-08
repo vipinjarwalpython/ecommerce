@@ -19,15 +19,23 @@ from rest_framework.decorators import permission_classes, authentication_classes
 from superadmin.models import Wallet
 from decimal import Decimal
 from rest_framework.response import Response
-from buyer.models import Buyer
+from buyer.models import Buyer, BillClone, BillItems
 from seller.api_seller.serializers import (
     SellerSerializer,
     ProductSerializer,
     CategorySerializer,
     WalletSerializer,
 )
+from buyer.api_buyer.serializers import (
+    BuyerSerializer,
+    BillCloneSerializer,
+    BillConfirmSerializer,
+    BuyerDashBoardSerializer,
+)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class SuperAdminDashboard(APIView):
     def post(self, request):
         try:
@@ -115,6 +123,8 @@ class SuperAdminLogin(APIView):
             return Response({"error": str(E)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class SuperAdminLogout(APIView):
     def get(self, request):
         try:
@@ -129,6 +139,8 @@ class SuperAdminLogout(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class SuperAdminAddFunds(APIView):
     def post(self, request):
         try:
@@ -159,6 +171,8 @@ class SuperAdminAddFunds(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class SuperAdminWithdrawFunds(APIView):
     def post(self, request):
         try:
@@ -188,6 +202,8 @@ class SuperAdminWithdrawFunds(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class SuperAdminWallet(APIView):
     def get(self, request):
         try:
@@ -203,6 +219,8 @@ class SuperAdminWallet(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class WalletWiseSellerList(APIView):
     def get(self, request):
         try:
@@ -217,6 +235,225 @@ class WalletWiseSellerList(APIView):
                 "wallet_serilizer": wallet_serializer.data,
             }
             return Response(context, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class SellerListView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            seller = Seller.objects.all()
+            serializer = SellerSerializer(seller, many=True)
+            seller_list = serializer.data
+            context = {"status": status.HTTP_200_OK, "seller_list": seller_list}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class BuyerListView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            buyer = Buyer.objects.all()
+            serializer = BuyerSerializer(buyer, many=True)
+            buyer_list = serializer.data
+            context = {"status": status.HTTP_200_OK, "buyer_list": buyer_list}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class ProductListView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            product = Product.objects.all()
+            serializer = ProductSerializer(product, many=True)
+            product_list = serializer.data
+            context = {"status": status.HTTP_200_OK, "product_list": product_list}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class SellerWiseProductListView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            user = request.data
+            seller = Seller.objects.get(seller_id=user.get("id"))
+            product = Product.objects.filter(seller=seller)
+            print(product)
+            serializer = ProductSerializer(product, many=True)
+            product_list = serializer.data
+            context = {"status": status.HTTP_200_OK, "product_list": product_list}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class CategoryWiseProductListView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            user = request.data
+            category = Category.objects.get(id=user.get("id"))
+            product = Product.objects.filter(category=category)
+            print(product)
+            serializer = ProductSerializer(product, many=True)
+            product_list = serializer.data
+            context = {"status": status.HTTP_200_OK, "product_list": product_list}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class WalletWiseSellerListView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            seller_wallet = Wallet.objects.filter(user_type="seller")
+            print(seller_wallet)
+            serializer = WalletSerializer(seller_wallet, many=True)
+            seller_wallet = serializer.data
+            context = {"status": status.HTTP_200_OK, "seller_wallet": seller_wallet}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class SettlementView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            bills = BillClone.objects.all()
+            print(bills)
+            serializer = BillCloneSerializer(bills, many=True)
+            bills = serializer.data
+            context = {"status": status.HTTP_200_OK, "bills": bills}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class FinalSettlementView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = request.data
+            billclone = BillClone.objects.get(id=data.get("id"))
+            print(billclone)
+            # Send Money from buyer wallet to seller wallet, deducting 95% of the total bill with individual product prices
+            seller_wallet = Wallet.objects.get(
+                walletuser_id=billclone.bill_item.product.seller.seller.id
+            )
+            seller_wallet.balance += Decimal(
+                (billclone.bill_item.total_price * 95) / 100
+            )
+            seller_wallet.save()
+
+            # Send Money from buyer wallet to superadmin wallet, 5% of the total bill with individual product prices
+            superadmin_wallet = Wallet.objects.get(user_type="superadmin")
+            superadmin_wallet.balance += Decimal(
+                (billclone.bill_item.total_price * 5) / 100
+            )
+            superadmin_wallet.save()
+
+            billclone.delete()
+            context = {"status": status.HTTP_200_OK, "msg": "Settlement completed"}
+            return Response(
+                context,
+            )
+
+        except Exception as e:
+            # Log the exception or handle it as needed
+            print(
+                f"An error occurred while retrieving the wallet-wise seller list: {str(e)}"
+            )
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class BuyerDashboardView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = request.data
+            items = BillItems.objects.filter(user_id=data.get("user_id"))
+            print(items)
+            serializer = BuyerDashBoardSerializer(items, many=True)
+            buyer_items_list = serializer.data
+            context = {
+                "status": status.HTTP_200_OK,
+                "buyer_items_list": buyer_items_list,
+            }
+            return Response(
+                context,
+            )
 
         except Exception as e:
             # Log the exception or handle it as needed

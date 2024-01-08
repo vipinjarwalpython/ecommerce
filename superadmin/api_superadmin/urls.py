@@ -7,6 +7,15 @@ from .views import (
     SuperAdminWithdrawFunds,
     SuperAdminWallet,
     WalletWiseSellerList,
+    SellerListView,
+    BuyerListView,
+    ProductListView,
+    SellerWiseProductListView,
+    CategoryWiseProductListView,
+    WalletWiseSellerListView,
+    SettlementView,
+    FinalSettlementView,
+    BuyerDashboardView,
 )
 
 urlpatterns = [
@@ -44,5 +53,50 @@ urlpatterns = [
         "walletwisesellerlist/",
         WalletWiseSellerList.as_view(),
         name="walletwise-sellerlist",
+    ),
+    path(
+        "sellerlist/",
+        SellerListView.as_view(),
+        name="sellerlist",
+    ),
+    path(
+        "buyerlist/",
+        BuyerListView.as_view(),
+        name="buyerlist",
+    ),
+    path(
+        "productlist/",
+        ProductListView.as_view(),
+        name="productlist",
+    ),
+    path(
+        "sellerproductlist/",
+        SellerWiseProductListView.as_view(),
+        name="sellerproductlist",
+    ),
+    path(
+        "categoryproductlist/",
+        CategoryWiseProductListView.as_view(),
+        name="categoryproductlist",
+    ),
+    path(
+        "sellerwalletlist/",
+        WalletWiseSellerListView.as_view(),
+        name="sellerwalletlist",
+    ),
+    path(
+        "settlementpage/",
+        SettlementView.as_view(),
+        name="settlementpage",
+    ),
+    path(
+        "finalsettlement/",
+        FinalSettlementView.as_view(),
+        name="finalsettlement",
+    ),
+    path(
+        "buyerdashboard/",
+        BuyerDashboardView.as_view(),
+        name="buyerdashboard",
     ),
 ]

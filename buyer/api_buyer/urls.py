@@ -34,17 +34,4 @@ urlpatterns = [
     path("withdraw-fund/", WithdrawFundView.as_view()),
     path("buyer-wallet/", BuyerWalletView.as_view()),
     path("buyer-dashboard/", BuyerDashBoardView.as_view()),
-    # path("buyer-details-show/", BuyerApi.as_view()),
-    # path("buyer-details-show/<int:id>/", BuyerApi.as_view()),
-    # path(
-    #     "signup/",
-    #     jwt_views.TokenObtainPairView.as_view(),
-    #     name="token_obtain_pair",
-    # ),
-    # path(
-    #     "buyersignup/refresh/",
-    #     jwt_views.TokenRefreshView.as_view(),
-    #     name="token_refresh",
-    # ),
-    # path("buyersignup/verify/", TokenVerifyView.as_view(), name="token_verify"),
 ]
