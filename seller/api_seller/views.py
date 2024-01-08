@@ -137,10 +137,6 @@ class ProductRegistration(APIView):
             data = request.data
             print(data)
             print("===================================")
-            serializer = UserSerializer(data=data)
-            # print(serializer)
-            if serializer.is_valid():
-                serializer.save()
             user = request.user
             print(user.id)
 
@@ -148,7 +144,7 @@ class ProductRegistration(APIView):
             category = Category.objects.get(id=data.get("categoryid"))
             print("===========================================")
             print(category)
-            seller_instance, created = Seller.objects.get_or_create(
+            seller_instance = Seller.objects.get(
                 seller=user,
             )
             print(seller_instance)
@@ -177,16 +173,12 @@ class ProductUpdate(APIView):
     def post(self, request):
         try:
             data = request.data
-            serializer = UserSerializer(data=data)
-            # print(serializer)
-            if serializer.is_valid():
-                serializer.save()
             user = request.user
             print(data.get("categoryid"))
             categoryid = Category.objects.get(id=data.get("category"))
             print("===========================================")
             print(categoryid)
-            seller_instance, created = Seller.objects.get_or_create(
+            seller_instance = Seller.objects.get(
                 seller=user,
             )
             product = Product.objects.get(id=data.get("productid"))
@@ -217,10 +209,6 @@ class ProductDelete(APIView):
     def get(self, request):
         try:
             data = request.data
-            serializer = UserSerializer(data=data)
-            # print(serializer)
-            if serializer.is_valid():
-                serializer.save()
             product = Product.objects.get(id=data.get("productid"))
             print(product)
             product.delete()
@@ -312,4 +300,10 @@ class SellerWallet(APIView):
             }
             return Response(context, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST) 
+
+
+
+
+
+
