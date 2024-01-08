@@ -4,6 +4,7 @@ from superadmin.models import *
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from seller.api_seller.serializers import ProductSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -52,12 +53,16 @@ class BuyerSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    buyer = UserSerializer()
+
     class Meta:
         model = CartItem
         fields = "__all__"
 
 
 class BuyerBillingSerializer(serializers.ModelSerializer):
+    buyer = UserSerializer()
+
     class Meta:
         model = BuyersBilling
         fields = [
@@ -75,18 +80,33 @@ class BuyerBillingSerializer(serializers.ModelSerializer):
 
 
 class BillConfirmSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    product = ProductSerializer()
+
     class Meta:
         model = BillItems
         fields = "__all__"
 
 
 class BuyerWalletSerializer(serializers.ModelSerializer):
+    user_type = UserSerializer()
+
     class Meta:
         model = Wallet
         fields = "__all__"
 
 
 class BuyerDashBoardSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
         model = BillItems
+        fields = "__all__"
+
+
+class BillCloneSerializer(serializers.ModelSerializer):
+    bill_item = BillConfirmSerializer()
+
+    class Meta:
+        model = BillClone
         fields = "__all__"
