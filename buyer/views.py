@@ -395,11 +395,11 @@ def add_funds(request):
                 buyer_wallet.save()
                 # Add transaction history and other logic as needed
                 return redirect("/buyer/wallet/")
-
+         return render(request, "add_funds.html")
     except Exception as e:
         messages.error(request, f"An error occurred: {str(e)}")
 
-    return render(request, "add_funds.html")
+   
 
 
 @login_required(login_url="/buyer/login/")
@@ -417,11 +417,11 @@ def withdraw_funds(request):
                 buyer_wallet.save()
                 # Add transaction history and other logic as needed
                 return redirect("/buyer/wallet/")
-
+        return render(request, "Withdraw_funds.html")
     except Exception as e:
         messages.error(request, f"An error occurred: {str(e)}")
 
-    return render(request, "Withdraw_funds.html")
+    
 
 
 @login_required(login_url="/buyer/login/")
